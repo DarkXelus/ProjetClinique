@@ -21,6 +21,7 @@ public class MDIAppExample extends JFrame implements ActionListener {
 	private JMenuBar menuBarre;
 	private JMenu menuAgenda;
 	private InternalFrame1 frm1;
+	private JMenu test;
 
 
 	public MDIAppExample() {

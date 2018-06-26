@@ -19,6 +19,8 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 	private static final String sqlRead = "SELECT * from Personnels where CodePers = %1d ";
 	private static final String sqlAll = "SELECT * from Personnels";
 	private static final String sqlCreate = "INSERT INTO Personnels(Nom,MotPasse,Role,Archive) VALUES ('%1s','%2s','%3s','%4b')";
+	private static final String sqlId = "SELECT CodePers from Personnels where Nom = '%1s' ";
+	private static final String sqlUpdate = "UPDATE Personnels SET Nom = '%1s',MotPasse = '%2',Role = '%3',Archive = '%4' WHERE Personnels.CodePers = %5 ";
 
 	public void connexionStatus() throws DALException {
 		Connection cnx = null;
@@ -48,7 +50,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 	}
 
 	@Override
-	public String Login(String name, String password) throws DALException,BLLException {
+	public String Login(String name, String password) throws DALException, BLLException {
 
 		String role = "vide";
 		Connection cnx = null;
@@ -61,11 +63,11 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 			if (rs.next()) {
 				role = rs.getString("Role");
 			}
-			if(role == "vide") {
+			if (role == "vide") {
 				throw new BLLException("Nom ou Mot De Passe incorrect");
 			}
 		} catch (SQLException e) {
-			
+
 			throw new DALException("Connexion failed ");
 		} finally {
 			try {
@@ -86,7 +88,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 	}
 
 	@Override
-	public Personnels read(int id) throws DALException {
+	public Personnels read(Long id) throws DALException {
 		Connection cnx = null;
 		PreparedStatement rqt = null;
 		ResultSet rs = null;
@@ -126,8 +128,37 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 	}
 
 	@Override
-	public void update(Personnels data) throws DALException {
-		// TODO Auto-generated method stub
+	public void update(Personnels newdata) throws DALException, BLLException {
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
+		Personnels data = read(GetId(newdata));
+
+		if (data != null) {
+			try {
+				cnx = JdbcTools.getConnection();
+				rqt = cnx.prepareStatement(String.format(sqlUpdate, newdata.getNom(), newdata.getMotPasse(),
+						newdata.getRole(), newdata.getArchive(), GetId(newdata)));
+				rqt.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DALException("Connexion failed :" + e.getMessage());
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (rqt != null) {
+						rqt.close();
+					}
+					if (cnx != null) {
+						cnx.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 
 	}
 
@@ -208,26 +239,18 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 			}
 		}
 	}
-	
-	public Long GetId(Personnels perso) throws DALException
-	{
-		return null;
-		/*Connection cnx = null;
+
+	public Long GetId(Personnels perso) throws DALException {
+		Connection cnx = null;
 		PreparedStatement rqt = null;
 		ResultSet rs = null;
 		Long id = null;
 		try {
 			cnx = JdbcTools.getConnection();
-			rqt = cnx.prepareStatement(String.format(sqlRead, id));
+			rqt = cnx.prepareStatement(String.format(sqlId, id));
 			rs = rqt.executeQuery();
 			if (rs.next()) {
-				try {
-					perso = new Personnels(rs.getString("Nom"), rs.getString("MotPasse"), rs.getString("Role"),
-							rs.getBoolean("Archive"));
-				} catch (BLLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				id = rs.getLong("CodePers");
 			}
 
 		} catch (SQLException e) {
@@ -247,7 +270,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 				e.printStackTrace();
 			}
 		}
-		return id;*/
+		return id;
 	}
 
 }

@@ -9,8 +9,14 @@ public class AppliTestBll {
 	public static void main(String[] args) {
 		
 		LoginManager lm = new LoginManager();
-		String test = lm.Login("BOSAPIN","AniForm");
+		String test;
+		try {
+			test = lm.Login("BOSAPIN","AniForm");
 		System.out.println(test);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		PersonnelsManager pm = new PersonnelsManager();
 		List<Personnels> lstPersonnels = new ArrayList<Personnels>();

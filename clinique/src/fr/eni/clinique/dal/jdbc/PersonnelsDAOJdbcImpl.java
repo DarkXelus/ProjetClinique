@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.eni.clinique.BO.ExceptionPersonnels;
 import fr.eni.clinique.BO.Personnels;
+import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.JdbcTools;
 import fr.eni.clinique.dal.PersonnelsDAO;
@@ -18,7 +18,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 	private static final String sqlLogin = "SELECT Role from Personnels where Nom ='%1s' AND MotPasse = '%2s'";
 	private static final String sqlRead = "SELECT * from Personnels where CodePers = %1d ";
 	private static final String sqlAll = "SELECT * from Personnels";
-	private static final String sqlCreate = "INSERT INTO Personnels(Nom,MotPasse,Role,Archive) VALUES (%1s,%2s,%3s,%4b)";
+	private static final String sqlCreate = "INSERT INTO Personnels(Nom,MotPasse,Role,Archive) VALUES ('%1s','%2s','%3s','%4b')";
 	Connection cnx = null;
 	PreparedStatement rqt = null;
 	ResultSet rs = null;
@@ -92,7 +92,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 				try {
 					perso = new Personnels(rs.getString("Nom"), rs.getString("MotPasse"), rs.getString("Role"),
 							rs.getBoolean("Archive"));
-				} catch (ExceptionPersonnels e) {
+				} catch (BLLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -136,14 +136,14 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 		Personnels perso = null;
 		try {
 			cnx = JdbcTools.getConnection();
-			rqt = cnx.prepareStatement(String.format(sqlAll));
+			rqt = cnx.prepareStatement(sqlAll);
 			rs = rqt.executeQuery();
 			if (rs.next()) {
 				try {
-					perso = new Personnels(rs.getString("Nom"), rs.getString("MotPasse"), rs.getString("Role"),
+					perso = new Personnels(rs.getLong("CodePerso"),rs.getString("Nom"), rs.getString("MotPasse"), rs.getString("Role"),
 							rs.getBoolean("Archive"));
 					lstPerso.add(perso);
-				} catch (ExceptionPersonnels e) {
+				} catch (BLLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

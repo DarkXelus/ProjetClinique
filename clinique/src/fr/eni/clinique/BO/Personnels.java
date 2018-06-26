@@ -1,5 +1,7 @@
 package fr.eni.clinique.BO;
 
+import fr.eni.clinique.bll.BLLException;
+
 public class Personnels {
 	Long CodePerso;
 	// size 30
@@ -23,7 +25,7 @@ public class Personnels {
 		return Nom;
 	}
 
-	public void setNom(String nom) throws ExceptionPersonnels {
+	public void setNom(String nom) throws BLLException {
 		
 		Nom = nom;
 	}
@@ -32,7 +34,7 @@ public class Personnels {
 		return MotPasse;
 	}
 
-	public void setMotPasse(String motPasse) throws ExceptionPersonnels {
+	public void setMotPasse(String motPasse) throws BLLException {
 		
 		MotPasse = motPasse;
 	}
@@ -41,9 +43,9 @@ public class Personnels {
 		return Role;
 	}
 
-	public void setRole(String role) throws ExceptionPersonnels {
+	public void setRole(String role) throws BLLException {
 		if (role.length() > 3) {
-			throw new ExceptionPersonnels("Le role est trop long(" + role.length() + ") il est limité a 3 catacteres");
+			throw new BLLException("Le role est trop long(" + role.length() + ") il est limité a 3 catacteres");
 		}
 		Role = role;
 	}
@@ -56,12 +58,28 @@ public class Personnels {
 		Archive = archive;
 	}
 
-	public Personnels(String nom, String motPasse, String role, Boolean archive ) throws ExceptionPersonnels {
+	public Personnels(String nom, String motPasse, String role, Boolean archive ) throws BLLException {
 		super();
 		this.setNom(nom);
 		this.setMotPasse(motPasse);
 		this.setRole(role);
 		this.setArchive(archive);
+	}
+	
+	
+	public Personnels(Long codePerso,String nom, String motPasse, String role, Boolean archive ) throws BLLException {
+		super();
+		this.setCodePerso(codePerso);
+		this.setNom(nom);
+		this.setMotPasse(motPasse);
+		this.setRole(role);
+		this.setArchive(archive);
+	}
+
+	@Override
+	public String toString() {
+		return "Personnels [CodePerso=" + CodePerso + ", Nom=" + Nom + ", MotPasse=" + MotPasse + ", Role=" + Role
+				+ ", Archive=" + Archive + "]";
 	}
 
 	// ------------------------S'authentifier----------------------

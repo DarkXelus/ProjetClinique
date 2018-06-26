@@ -9,5 +9,5 @@ public interface PersonnelsDAO extends DAO<Personnels> {
 
 	public List<Personnels> selectAll() throws DALException,BLLException;
 
-	public String Login(String name, String password) throws DALException;
+	public String Login(String name, String password) throws DALException, BLLException;
 }

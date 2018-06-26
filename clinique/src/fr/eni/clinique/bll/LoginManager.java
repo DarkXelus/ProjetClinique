@@ -12,21 +12,18 @@ public class LoginManager {
 		daoPersonnels = DAOFactory.getPersonnelsDAO();
 	}
 
-	public String Login(String name, String password) {
+	public String Login(String name, String password) throws Exception {
 		String role = "vide";
 		try {
 			CheckField.CheckPersoName(name);
 			CheckField.CheckPersoPassword(password);
 
-			try {
 				role = daoPersonnels.Login(name, password);
-			} catch (DALException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (BLLException e) {
+			
+		} catch (DALException | BLLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+				throw e;
 		}
 		return role;
 	}

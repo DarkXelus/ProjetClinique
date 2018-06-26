@@ -48,7 +48,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 	}
 
 	@Override
-	public String Login(String name, String password) throws DALException {
+	public String Login(String name, String password) throws DALException,BLLException {
 
 		String role = "vide";
 		Connection cnx = null;
@@ -61,8 +61,11 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 			if (rs.next()) {
 				role = rs.getString("Role");
 			}
-
+			if(role == "vide") {
+				throw new BLLException("Nom ou Mot De Passe incorrect");
+			}
 		} catch (SQLException e) {
+			
 			throw new DALException("Connexion failed ");
 		} finally {
 			try {
@@ -208,6 +211,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 	
 	public Long GetId(Personnels perso) throws DALException
 	{
+		return null;
 		/*Connection cnx = null;
 		PreparedStatement rqt = null;
 		ResultSet rs = null;

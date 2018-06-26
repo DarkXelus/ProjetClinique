@@ -38,7 +38,7 @@ public class PersonnelsManager {
 		List<Personnels> lstPersonnels = new ArrayList<Personnels>();
 		try {
 			lstPersonnels = daoPersonnels.selectAll();
-		} catch (DALException e) {
+		} catch (DALException | BLLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

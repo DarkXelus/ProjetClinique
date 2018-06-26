@@ -16,19 +16,19 @@ public class AppliTestBll {
 		List<Personnels> lstPersonnels = new ArrayList<Personnels>();
 		
 		Personnels perso;
-		//try {
-			/*perso = new Personnels("AIMON","AniForm","VET",false);
-			pm.Create(perso);*/
+		try {
+			perso = new Personnels("TOURNE","AniForm","VET",false);
+			pm.Create(perso);
 			lstPersonnels = pm.SelectAll();
 			
 			for (Personnels personnels : lstPersonnels) {
 				System.out.println(personnels.toString());
 			}
 			
-		/*} catch (BLLException e) {
+		} catch (BLLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		
 	}
 }

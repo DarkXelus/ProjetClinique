@@ -19,12 +19,11 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 	private static final String sqlRead = "SELECT * from Personnels where CodePers = %1d ";
 	private static final String sqlAll = "SELECT * from Personnels";
 	private static final String sqlCreate = "INSERT INTO Personnels(Nom,MotPasse,Role,Archive) VALUES ('%1s','%2s','%3s','%4b')";
-	Connection cnx = null;
-	PreparedStatement rqt = null;
-	ResultSet rs = null;
 
 	public void connexionStatus() throws DALException {
-
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
 		try {
 			cnx = JdbcTools.getConnection();
 
@@ -52,7 +51,9 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 	public String Login(String name, String password) throws DALException {
 
 		String role = "vide";
-
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
 		try {
 			cnx = JdbcTools.getConnection();
 			rqt = cnx.prepareStatement(String.format(sqlLogin, name, password));
@@ -83,6 +84,9 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 
 	@Override
 	public Personnels read(int id) throws DALException {
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
 		Personnels perso = null;
 		try {
 			cnx = JdbcTools.getConnection();
@@ -131,17 +135,20 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 	}
 
 	@Override
-	public List<Personnels> selectAll() throws DALException {
+	public List<Personnels> selectAll() throws DALException, BLLException {
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
 		List<Personnels> lstPerso = new ArrayList<Personnels>();
 		Personnels perso = null;
 		try {
 			cnx = JdbcTools.getConnection();
 			rqt = cnx.prepareStatement(sqlAll);
 			rs = rqt.executeQuery();
-			if (rs.next()) {
+			while (rs.next()) {
 				try {
-					perso = new Personnels(rs.getLong("CodePerso"),rs.getString("Nom"), rs.getString("MotPasse"), rs.getString("Role"),
-							rs.getBoolean("Archive"));
+					perso = new Personnels(rs.getLong("CodePers"), rs.getString("Nom"), rs.getString("MotPasse"),
+							rs.getString("Role"), rs.getBoolean("Archive"));
 					lstPerso.add(perso);
 				} catch (BLLException e) {
 					// TODO Auto-generated catch block
@@ -150,7 +157,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 			}
 
 		} catch (SQLException e) {
-			throw new DALException("Connexion failed ");
+			throw new DALException("Connexion failed :" + e.getMessage());
 		} finally {
 			try {
 				if (rs != null) {
@@ -171,15 +178,17 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 
 	@Override
 	public void create(Personnels data) throws DALException {
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
 		try {
 			cnx = JdbcTools.getConnection();
 			rqt = cnx.prepareStatement(
 					String.format(sqlCreate, data.getNom(), data.getMotPasse(), data.getRole(), data.getArchive()));
-			rs = rqt.executeQuery();
-			
+			rqt.executeUpdate();
 
 		} catch (SQLException e) {
-			throw new DALException("Connexion failed ");
+			throw new DALException("Connexion failed :" + e.getMessage());
 		} finally {
 			try {
 				if (rs != null) {
@@ -195,6 +204,46 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public Long GetId(Personnels perso) throws DALException
+	{
+		/*Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
+		Long id = null;
+		try {
+			cnx = JdbcTools.getConnection();
+			rqt = cnx.prepareStatement(String.format(sqlRead, id));
+			rs = rqt.executeQuery();
+			if (rs.next()) {
+				try {
+					perso = new Personnels(rs.getString("Nom"), rs.getString("MotPasse"), rs.getString("Role"),
+							rs.getBoolean("Archive"));
+				} catch (BLLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		} catch (SQLException e) {
+			throw new DALException(e.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (rqt != null) {
+					rqt.close();
+				}
+				if (cnx != null) {
+					cnx.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return id;*/
 	}
 
 }

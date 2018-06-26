@@ -24,9 +24,7 @@ public class Personnels {
 	}
 
 	public void setNom(String nom) throws ExceptionPersonnels {
-		if (nom.length() > 30) {
-			throw new ExceptionPersonnels("Le nom est trop long(" + nom.length() + ") il est limité a 30 catacteres");
-		}
+		
 		Nom = nom;
 	}
 
@@ -35,10 +33,7 @@ public class Personnels {
 	}
 
 	public void setMotPasse(String motPasse) throws ExceptionPersonnels {
-		if (motPasse.length() > 10) {
-			throw new ExceptionPersonnels(
-					"Le mot de passe est trop long(" + motPasse.length() + ") il est limité a 10 catacteres");
-		}
+		
 		MotPasse = motPasse;
 	}
 

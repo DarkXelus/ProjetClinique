@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import fr.eni.clinique.dal.jdbc.ConnexionDAOJdbcImpl;
+import fr.eni.clinique.dal.jdbc.PersonnelsDAOJdbcImpl;
 
 public class AppliTestDAL {
 

@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,8 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import fr.eni.clinique.bll.BLLException;
-import fr.eni.clinique.bll.CheckField;
 import fr.eni.clinique.bll.LoginManager;
 
 @SuppressWarnings("serial")
@@ -76,7 +73,11 @@ public class EcranLogin extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 						LoginManager lm = new LoginManager();
 						try {
-							String test = lm.Login(jTxtNom.getText(), jPassMdp.getText());
+							String nom = jTxtNom.getText();
+							String rôle = lm.Login(nom, jPassMdp.getText());
+							//Passage du rôle et du nom dans la vue Main
+							EcranMain main = new EcranMain(rôle,nom);
+							main.setVisible(true);
 						} catch (Exception e) {
 							JOptionPane.showMessageDialog(frame, "Mot de passe ou nom incorrect");
 						}

@@ -11,7 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class AddClient extends JFrame {
+public class EcranAddClient extends JFrame {
 	private JTextField txtFieldCode;
 	private JTextField txtFieldNom;
 	private JTextField txtFieldPrenom;
@@ -19,7 +19,7 @@ public class AddClient extends JFrame {
 	private JTextField txtFieldCodePostal;
 	private JTextField txtFieldVille;
 	
-	public AddClient() {
+	public EcranAddClient() {
 		super("Ajouter un nouveau client");
 		setSize(600,400);
 		GridBagLayout gridBagLayout = new GridBagLayout();

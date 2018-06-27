@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/rduclos2017/Documents/ressources/Java/MDI/ProjetClinique/clinique/lib/sqljdbc42.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rduclos2017/Documents/ressources/Java/MDI/ProjetClinique/clinique/lib/logging/logback-classic-1.2.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rduclos2017/Documents/ressources/Java/MDI/ProjetClinique/clinique/lib/logging/logback-core-1.2.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rduclos2017/Documents/ressources/Java/MDI/ProjetClinique/clinique/lib/logging/slf4j-api-1.7.25.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rduclos2017/Documents/ressources/Java/MDI/ProjetClinique/clinique/lib/calendrier/jdatepicker-1.3.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rduclos2017/Documents/ressources/Java/MDI/ProjetClinique/clinique/lib/calendrier/jdatepicker-1.3.4-javadoc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

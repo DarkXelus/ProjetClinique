@@ -14,15 +14,16 @@ import javax.swing.JPanel;
 
 import fr.eni.clinique.bll.LoginManager;
 import fr.eni.clinique.ihm.Personnels.EcranGestionPersonnels;
+import fr.eni.clinique.ihm.clients.EcranGestionClients;
 
 @SuppressWarnings("serial")
 public class EcranMain extends JFrame {
 	static JFrame frame;
 	private JLabel lblNom;
-	private JButton btnPersonnels;
+	private JButton btnPersonnels, btnClients;
 
 	public EcranMain(String role, String nom) {
-		super();
+		super("Ecran Principal");
 		setSize(500, 100);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -50,14 +51,32 @@ public class EcranMain extends JFrame {
 						EcranGestionPersonnels ecranPersonnels = new EcranGestionPersonnels(role, nom);
 						ecranPersonnels.setVisible(true);
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(frame, "Mot de passe ou nom incorrect");
+						JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
 					}
 				}
 			});
 
 		}
 		return btnPersonnels;
+	}
 
+	public JButton getBtnClients(String role) {
+		if (btnClients == null) {
+			if(role.equals("AST"))
+			{
+				btnClients = new JButton("Gestion des Clients");
+				btnClients.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						EcranGestionClients clients = new EcranGestionClients();
+						clients.setVisible(true);
+					}
+				});
+			} else {
+				JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
+			}
+		}
+		return btnClients;
 	}
 
 	private void initIHM(String role, String nom) {
@@ -74,9 +93,13 @@ public class EcranMain extends JFrame {
 		panel.add(getLblNom(nom, role), gbc);
 
 		gbc.gridx = 0;
-		gbc.gridy = 20;
+		gbc.gridy = 1;
 		panel.add(getBtnPersonnels(nom, role), gbc);
 
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		panel.add(getBtnClients(role), gbc);
+		
 		this.setContentPane(panel);
 	}
 

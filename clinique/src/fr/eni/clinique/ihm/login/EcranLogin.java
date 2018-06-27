@@ -20,7 +20,7 @@ import fr.eni.clinique.bll.LoginManager;
 public class EcranLogin extends JFrame {
 
 	static JFrame frame;
-	private JLabel lblNom, lblMdp;
+	private JLabel lblLogin, lblMdp;
 	private JTextField jTxtNom;
 	private JPasswordField jPassMdp;
 	private JButton btnConnexion;
@@ -34,11 +34,11 @@ public class EcranLogin extends JFrame {
 		initIHM();
 	}
 
-	public JLabel getLblNom() {
-		if (lblNom == null) {
-			lblNom = new JLabel("Nom: ");
+	public JLabel getLblLogin() {
+		if (lblLogin == null) {
+			lblLogin = new JLabel("Login: ");
 		}
-		return lblNom;
+		return lblLogin;
 	}
 
 	public JLabel getLblMdp() {
@@ -48,7 +48,7 @@ public class EcranLogin extends JFrame {
 		return lblMdp;
 	}
 
-	public JTextField getjTxtNom() {
+	public JTextField getjTxtLogin() {
 		if (jTxtNom == null) {
 			jTxtNom = new JTextField(20);
 			jTxtNom.setBounds(5, 5, 30, 25);
@@ -71,21 +71,23 @@ public class EcranLogin extends JFrame {
 			btnConnexion.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-						LoginManager lm = new LoginManager();
-						try {
-							String nom = jTxtNom.getText();
-							String role = lm.Login(nom, jPassMdp.getText());
+					LoginManager lm = new LoginManager();
+					try {
+						String login = jTxtNom.getText();
+						String role = lm.Login(login, jPassMdp.getText());
 
-							//Passage du role et du nom dans la vue Main
-							EcranMain main = new EcranMain(role,nom);
-							main.setVisible(true);
-						} catch (Exception e) {
-							JOptionPane.showMessageDialog(frame, "Mot de passe ou nom incorrect");
-						}
+						// Passage du role et du nom dans la vue Main
+						EcranMain main = new EcranMain(role, login);
+						main.setVisible(true);
+						EcranLogin.this.dispose();
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(frame, "Login ou Mot de passe incorrect");
+					}
 				}
 			});
 
-		}return btnConnexion;
+		}
+		return btnConnexion;
 
 	}
 
@@ -100,10 +102,10 @@ public class EcranLogin extends JFrame {
 		// Ligne 1
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		panel.add(getLblNom(), gbc);
+		panel.add(getLblLogin(), gbc);
 
 		gbc.gridx = 1;
-		panel.add(getjTxtNom(), gbc);
+		panel.add(getjTxtLogin(), gbc);
 
 		// Ligne 2
 		gbc.gridx = 0;

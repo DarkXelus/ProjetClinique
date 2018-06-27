@@ -10,22 +10,22 @@ public class AppliTestBO {
 		Personnels P1,P2,P3,P4;
 	
 		try {
-			P1= new Personnels("jimmy","incorect","MED", false) ;
+			P1= new Personnels("jimmy","incorect","","","MED", false) ;
 		} catch (BLLException e) {
 			e.printStackTrace();
 		}
 		try {
-			P2= new Personnels("jimmy","incorect","MED545", false) ;
+			P2= new Personnels("jimmy","incorect","","","MED545", false) ;
 		} catch (BLLException e) {
 			e.printStackTrace();
 		}
 		try {
-			P3= new Personnels("jimmy","incorect654854","MED", false) ;
+			P3= new Personnels("jimmy","incorect654854","","","MED", false) ;
 		} catch (BLLException e) {
 			e.printStackTrace();
 		}
 		try {
-			P4= new Personnels("jimmyfdsgsgfgdgdsgsgsdgffsgsfgsgsfdgsdgdfsdfg","incorect","MED", false) ;
+			P4= new Personnels("jimmyfdsgsgfgdgdsgsgsdgffsgsfgsgsfdgsdgdfsdfg","incorect","","","MED", false) ;
 		} catch (BLLException e) {
 			e.printStackTrace();
 		}

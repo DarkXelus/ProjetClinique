@@ -13,15 +13,22 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
 
-public class EcranGestion extends JFrame {
+@SuppressWarnings("serial")
+public class EcranGestionClients extends JFrame {
 	private JTextField txtFieldCodeClient;
 	private JTextField txtFieldNom;
 	private JTextField txtFieldPrenom;
 	private JTextField txtFieldAdresse;
 	private JTextField textField;
 	private JTextField textField_1;
-	public EcranGestion() {
+	
+	public EcranGestionClients() {
+		super("Ecran de Gestion des Clients");
+		setSize(810,340);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 140, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -30,7 +37,7 @@ public class EcranGestion extends JFrame {
 		getContentPane().setLayout(gridBagLayout);
 		
 		JButton btnRechercher = new JButton("Rechercher");
-		btnRechercher.setIcon(new ImageIcon("C:\\Users\\rduclos2017\\Downloads\\search.png"));
+		btnRechercher.setIcon(new ImageIcon("C:\\Users\\rduclos2017\\Documents\\ressources\\Java\\MDI\\ProjetClinique\\clinique\\icon\\search.png"));
 		btnRechercher.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -42,7 +49,13 @@ public class EcranGestion extends JFrame {
 		getContentPane().add(btnRechercher, gbc_btnRechercher);
 		
 		JButton btnAdd = new JButton("Ajouter");
-		btnAdd.setIcon(new ImageIcon("C:\\Users\\rduclos2017\\Downloads\\add (1).png"));
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AddClient ac = new AddClient();
+				ac.setVisible(true);
+			}
+		});
+		btnAdd.setIcon(new ImageIcon("C:\\Users\\rduclos2017\\Documents\\ressources\\Java\\MDI\\ProjetClinique\\clinique\\icon\\add (1).png"));
 		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
 		gbc_btnAdd.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAdd.gridx = 6;
@@ -50,7 +63,7 @@ public class EcranGestion extends JFrame {
 		getContentPane().add(btnAdd, gbc_btnAdd);
 		
 		JButton btnDelete = new JButton("Supprimer");
-		btnDelete.setIcon(new ImageIcon("C:\\Users\\rduclos2017\\Downloads\\rubbish-bin.png"));
+		btnDelete.setIcon(new ImageIcon("C:\\Users\\rduclos2017\\Documents\\ressources\\Java\\MDI\\ProjetClinique\\clinique\\icon\\rubbish-bin.png"));
 		GridBagConstraints gbc_btnDelete = new GridBagConstraints();
 		gbc_btnDelete.insets = new Insets(0, 0, 5, 5);
 		gbc_btnDelete.gridx = 7;
@@ -58,7 +71,7 @@ public class EcranGestion extends JFrame {
 		getContentPane().add(btnDelete, gbc_btnDelete);
 		
 		JButton btnValider = new JButton("Valider");
-		btnValider.setIcon(new ImageIcon("C:\\Users\\rduclos2017\\Downloads\\checked.png"));
+		btnValider.setIcon(new ImageIcon("C:\\Users\\rduclos2017\\Documents\\ressources\\Java\\MDI\\ProjetClinique\\clinique\\icon\\checked.png"));
 		GridBagConstraints gbc_btnValider = new GridBagConstraints();
 		gbc_btnValider.insets = new Insets(0, 0, 5, 5);
 		gbc_btnValider.gridx = 11;
@@ -66,7 +79,7 @@ public class EcranGestion extends JFrame {
 		getContentPane().add(btnValider, gbc_btnValider);
 		
 		JButton btnSupprimer = new JButton("Annuler");
-		btnSupprimer.setIcon(new ImageIcon("C:\\Users\\rduclos2017\\Downloads\\back-arrow.png"));
+		btnSupprimer.setIcon(new ImageIcon("C:\\Users\\rduclos2017\\Documents\\ressources\\Java\\MDI\\ProjetClinique\\clinique\\icon\\back-arrow.png"));
 		GridBagConstraints gbc_btnSupprimer = new GridBagConstraints();
 		gbc_btnSupprimer.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSupprimer.gridx = 12;
@@ -83,7 +96,7 @@ public class EcranGestion extends JFrame {
 		
 		txtFieldCodeClient = new JTextField();
 		GridBagConstraints gbc_txtFieldCodeClient = new GridBagConstraints();
-		gbc_txtFieldCodeClient.gridwidth = 3;
+		gbc_txtFieldCodeClient.gridwidth = 5;
 		gbc_txtFieldCodeClient.insets = new Insets(0, 0, 5, 5);
 		gbc_txtFieldCodeClient.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtFieldCodeClient.gridx = 2;
@@ -101,7 +114,7 @@ public class EcranGestion extends JFrame {
 		
 		txtFieldNom = new JTextField();
 		GridBagConstraints gbc_txtFieldNom = new GridBagConstraints();
-		gbc_txtFieldNom.gridwidth = 3;
+		gbc_txtFieldNom.gridwidth = 5;
 		gbc_txtFieldNom.insets = new Insets(0, 0, 5, 5);
 		gbc_txtFieldNom.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtFieldNom.gridx = 2;
@@ -119,7 +132,7 @@ public class EcranGestion extends JFrame {
 		
 		txtFieldPrenom = new JTextField();
 		GridBagConstraints gbc_txtFieldPrenom = new GridBagConstraints();
-		gbc_txtFieldPrenom.gridwidth = 3;
+		gbc_txtFieldPrenom.gridwidth = 5;
 		gbc_txtFieldPrenom.insets = new Insets(0, 0, 5, 5);
 		gbc_txtFieldPrenom.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtFieldPrenom.gridx = 2;
@@ -137,7 +150,7 @@ public class EcranGestion extends JFrame {
 		
 		txtFieldAdresse = new JTextField();
 		GridBagConstraints gbc_txtFieldAdresse = new GridBagConstraints();
-		gbc_txtFieldAdresse.gridwidth = 3;
+		gbc_txtFieldAdresse.gridwidth = 5;
 		gbc_txtFieldAdresse.insets = new Insets(0, 0, 5, 5);
 		gbc_txtFieldAdresse.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtFieldAdresse.gridx = 2;
@@ -155,7 +168,7 @@ public class EcranGestion extends JFrame {
 		
 		textField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.gridwidth = 3;
+		gbc_textField.gridwidth = 5;
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 2;
@@ -173,13 +186,37 @@ public class EcranGestion extends JFrame {
 		
 		textField_1 = new JTextField();
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.gridwidth = 3;
+		gbc_textField_1.gridwidth = 5;
 		gbc_textField_1.insets = new Insets(0, 0, 0, 5);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_1.gridx = 2;
 		gbc_textField_1.gridy = 8;
 		getContentPane().add(textField_1, gbc_textField_1);
 		textField_1.setColumns(10);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnGnral = new JMenu("G\u00E9n\u00E9ral");
+		menuBar.add(mnGnral);
+		
+		JMenuItem mntmDconnexion = new JMenuItem("D\u00E9connexion");
+		mnGnral.add(mntmDconnexion);
+		
+		JMenuItem mntmFermer = new JMenuItem("Fermer");
+		mnGnral.add(mntmFermer);
+		
+		JMenu mnAjoutDunClient = new JMenu("Client");
+		menuBar.add(mnAjoutDunClient);
+		
+		JMenuItem mntmGrerLesClients = new JMenuItem("G\u00E9rer les clients");
+		mnAjoutDunClient.add(mntmGrerLesClients);
+		
+		JMenu mnPersonnel = new JMenu("Personnel");
+		menuBar.add(mnPersonnel);
+		
+		JMenuItem mntmGrerLePersonnel = new JMenuItem("G\u00E9rer le personnel");
+		mnPersonnel.add(mntmGrerLePersonnel);
 	}
 
 }

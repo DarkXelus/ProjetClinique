@@ -12,14 +12,14 @@ public class AppliTestBll {
 		LoginManager lm = new LoginManager();
 		String test;
 		try {
-<<<<<<< HEAD
+
 			test = lm.Login("BOSAPIN","AniForm");
 		System.out.println(test);
 
-=======
+
 			test = lm.Login("BOSAPIN", "AniForm");
 			System.out.println(test);
->>>>>>> 3baa5ee3e3ed0d12b5467786fb4e7f5d6c1c7613
+
 			test = lm.Login("BOSAPIN", "AniForm");
 			System.out.println(test);
 		} catch (Exception e1) {

@@ -62,19 +62,18 @@ public class EcranMain extends JFrame {
 
 	public JButton getBtnClients(String role) {
 		if (btnClients == null) {
-			if(role.equals("AST"))
-			{
-				btnClients = new JButton("Gestion des Clients");
-				btnClients.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
+			btnClients = new JButton("Gestion des Clients");
+			btnClients.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if (role.equals("AST")) {
 						EcranGestionClients clients = new EcranGestionClients();
 						clients.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
 					}
-				});
-			} else {
-				JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
-			}
+				}
+			});
 		}
 		return btnClients;
 	}
@@ -99,7 +98,7 @@ public class EcranMain extends JFrame {
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		panel.add(getBtnClients(role), gbc);
-		
+
 		this.setContentPane(panel);
 	}
 

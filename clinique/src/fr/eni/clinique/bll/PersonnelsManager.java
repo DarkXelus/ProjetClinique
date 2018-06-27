@@ -16,31 +16,27 @@ public class PersonnelsManager {
 		daoPersonnels = DAOFactory.getPersonnelsDAO();
 	}
 
-	public void Create(Personnels perso) {
+	public void Create(Personnels perso) throws DALException, BLLException {
 		try {
 			CheckField.CheckPersoName(perso.getNom());
 			CheckField.CheckPersoPassword(perso.getMotPasse());
 			CheckField.CheckPersoRole(perso.getRole());
 
-			try {
-				daoPersonnels.create(perso);
-			} catch (DALException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (BLLException e) {
+			daoPersonnels.create(perso);
+
+		} catch (DALException | BLLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw e;
 		}
 	}
 
-	public List<Personnels> SelectAll() {
+	public List<Personnels> SelectAll() throws DALException, BLLException {
 		List<Personnels> lstPersonnels = new ArrayList<Personnels>();
 		try {
 			lstPersonnels = daoPersonnels.selectAll();
 		} catch (DALException | BLLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw e;
 		}
 		return lstPersonnels;
 	}

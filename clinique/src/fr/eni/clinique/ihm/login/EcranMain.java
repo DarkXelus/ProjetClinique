@@ -45,12 +45,12 @@ public class EcranMain extends JFrame {
 			btnPersonnels.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					LoginManager lm = new LoginManager();
-					try {
+					
+					if (!role.equals("PDA")) {
 						// Passage du role et du nom dans la vue Main
 						EcranGestionPersonnels ecranPersonnels = new EcranGestionPersonnels(role, nom);
 						ecranPersonnels.setVisible(true);
-					} catch (Exception e) {
+					} else {
 						JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
 					}
 				}
@@ -62,19 +62,20 @@ public class EcranMain extends JFrame {
 
 	public JButton getBtnClients(String role) {
 		if (btnClients == null) {
-			if(role.equals("AST"))
-			{
-				btnClients = new JButton("Gestion des Clients");
-				btnClients.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
+
+			btnClients = new JButton("Gestion des Clients");
+			btnClients.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if (role.equals("AST")) {
 						EcranGestionClients clients = new EcranGestionClients();
 						clients.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
 					}
-				});
-			} else {
-				JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
-			}
+				}
+			});
+
 		}
 		return btnClients;
 	}
@@ -99,7 +100,7 @@ public class EcranMain extends JFrame {
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		panel.add(getBtnClients(role), gbc);
-		
+
 		this.setContentPane(panel);
 	}
 

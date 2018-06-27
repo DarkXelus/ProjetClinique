@@ -6,6 +6,10 @@ public class Personnels {
 	Long CodePerso;
 	// size 30
 	String Nom;
+	// size 30
+	String Prenom;
+	// size 30
+	String login;
 	// size 10
 	String MotPasse;
 	// size 3
@@ -26,7 +30,7 @@ public class Personnels {
 	}
 
 	public void setNom(String nom) throws BLLException {
-		
+
 		Nom = nom;
 	}
 
@@ -35,7 +39,7 @@ public class Personnels {
 	}
 
 	public void setMotPasse(String motPasse) throws BLLException {
-		
+
 		MotPasse = motPasse;
 	}
 
@@ -44,9 +48,7 @@ public class Personnels {
 	}
 
 	public void setRole(String role) throws BLLException {
-		if (role.length() > 3) {
-			throw new BLLException("Le role est trop long(" + role.length() + ") il est limité a 3 catacteres");
-		}
+
 		Role = role;
 	}
 
@@ -58,19 +60,40 @@ public class Personnels {
 		Archive = archive;
 	}
 
-	public Personnels(String nom, String motPasse, String role, Boolean archive ) throws BLLException {
+	public String getPrenom() {
+		return Prenom;
+	}
+
+	public void setPrenom(String prenom) {
+		Prenom = prenom;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public Personnels(String nom, String prenom, String login, String motPasse, String role, Boolean archive)
+			throws BLLException {
 		super();
 		this.setNom(nom);
+		this.setPrenom(prenom);
+		this.setLogin(login);
 		this.setMotPasse(motPasse);
 		this.setRole(role);
 		this.setArchive(archive);
 	}
-	
-	
-	public Personnels(Long codePerso,String nom, String motPasse, String role, Boolean archive ) throws BLLException {
+
+	public Personnels(Long codePerso, String nom, String prenom, String login, String motPasse, String role,
+			Boolean archive) throws BLLException {
 		super();
 		this.setCodePerso(codePerso);
 		this.setNom(nom);
+		this.setPrenom(prenom);
+		this.setLogin(login);
 		this.setMotPasse(motPasse);
 		this.setRole(role);
 		this.setArchive(archive);
@@ -78,14 +101,9 @@ public class Personnels {
 
 	@Override
 	public String toString() {
-		return "Personnels [CodePerso=" + CodePerso + ", Nom=" + Nom + ", MotPasse=" + MotPasse + ", Role=" + Role
-				+ ", Archive=" + Archive + "]";
+		return "Personnels [CodePerso=" + CodePerso + ", Nom=" + Nom + ", Prenom=" + Prenom + ", login=" + login
+				+ ", MotPasse=" + MotPasse + ", Role=" + Role + ", Archive=" + Archive + "]";
 	}
 
-	// ------------------------S'authentifier----------------------
-	public String Authentifier(String nom, String passsword) {
-		// methode BDD_authentifier
-		return Role;
-	}
-	// ------------------------------------------------------------
+	
 }

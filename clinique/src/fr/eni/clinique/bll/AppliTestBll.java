@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.clinique.BO.Personnels;
+import fr.eni.clinique.dal.DALException;
 
 public class AppliTestBll {
 	public static void main(String[] args) {
@@ -11,8 +12,8 @@ public class AppliTestBll {
 		LoginManager lm = new LoginManager();
 		String test;
 		try {
-			test = lm.Login("BOSAPIN","AniForm");
-		System.out.println(test);
+			test = lm.Login("BOSAPIN", "AniForm");
+			System.out.println(test);
 			test = lm.Login("BOSAPIN", "AniForm");
 			System.out.println(test);
 		} catch (Exception e1) {
@@ -33,7 +34,7 @@ public class AppliTestBll {
 				System.out.println(personnels.toString());
 			}
 
-		} catch (BLLException e) {
+		} catch (DALException | BLLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

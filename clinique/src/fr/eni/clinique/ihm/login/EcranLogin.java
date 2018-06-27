@@ -74,9 +74,9 @@ public class EcranLogin extends JFrame {
 						LoginManager lm = new LoginManager();
 						try {
 							String nom = jTxtNom.getText();
-							String rôle = lm.Login(nom, jPassMdp.getText());
-							//Passage du rôle et du nom dans la vue Main
-							EcranMain main = new EcranMain(rôle,nom);
+							String role = lm.Login(nom, jPassMdp.getText());
+							//Passage du role et du nom dans la vue Main
+							EcranMain main = new EcranMain(role,nom);
 							main.setVisible(true);
 						} catch (Exception e) {
 							JOptionPane.showMessageDialog(frame, "Mot de passe ou nom incorrect");

@@ -3,40 +3,35 @@ package fr.eni.clinique.ihm.login;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
-import fr.eni.clinique.bll.LoginManager;
-
-public class EcranMain extends JFrame{
+@SuppressWarnings("serial")
+public class EcranMain extends JFrame {
 	static JFrame frame;
 	private JLabel lblNom;
+	private JButton btnPersonnels;
 
-	public EcranMain(String rôle,String nom) {
+	public EcranMain(String role, String nom) {
 		super();
 		setSize(500, 100);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		initIHM(rôle,nom);
+		initIHM(role, nom);
 	}
 
-	public JLabel getLblNom(String nom,String rôle) {
+	public JLabel getLblNom(String nom, String role) {
 		if (lblNom == null) {
-			lblNom = new JLabel("Bonjour " + nom + " rôle: " + rôle);
+			lblNom = new JLabel("Bonjour " + nom + " rôle: " + role);
 		}
 		return lblNom;
 	}
 
-	private void initIHM(String rôle,String nom) {
+	private void initIHM(String role, String nom) {
 
 		JPanel panel = new JPanel();
 		panel.setOpaque(true);
@@ -47,8 +42,7 @@ public class EcranMain extends JFrame{
 		// Ligne 1
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		panel.add(getLblNom(nom,rôle), gbc);
-
+		panel.add(getLblNom(nom, role), gbc);
 		this.setContentPane(panel);
 	}
 

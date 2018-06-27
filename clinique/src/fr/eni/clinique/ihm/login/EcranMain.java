@@ -62,7 +62,7 @@ public class EcranMain extends JFrame {
 
 	public JButton getBtnClients(String role) {
 		if (btnClients == null) {
-
+			
 			btnClients = new JButton("Gestion des Clients");
 			btnClients.addActionListener(new ActionListener() {
 				@Override
@@ -75,8 +75,8 @@ public class EcranMain extends JFrame {
 					}
 				}
 			});
-
 		}
+		
 		return btnClients;
 	}
 

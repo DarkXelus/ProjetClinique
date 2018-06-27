@@ -75,7 +75,8 @@ public class EcranLogin extends JFrame {
 						try {
 							String nom = jTxtNom.getText();
 							String role = lm.Login(nom, jPassMdp.getText());
-							//Passage du rôle et du nom dans la vue Main
+
+							//Passage du role et du nom dans la vue Main
 							EcranMain main = new EcranMain(role,nom);
 							main.setVisible(true);
 						} catch (Exception e) {

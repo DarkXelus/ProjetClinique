@@ -15,10 +15,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import fr.eni.clinique.BO.Personnels;
-import fr.eni.clinique.bll.LoginManager;
 import fr.eni.clinique.bll.PersonnelsManager;
-import fr.eni.clinique.ihm.login.EcranMain;
 
+@SuppressWarnings("serial")
 public class AjoutPersonnels extends JFrame {
 	static JFrame frame;
 	JLabel lblNom, lblPrenom, lblRole, lblMdp;
@@ -92,6 +91,7 @@ public class AjoutPersonnels extends JFrame {
 	public JTextField getTxtRole() {
 		if (txtRole == null) {
 			txtRole = new JTextField(20);
+			// txtRole.;
 			txtRole.setBounds(5, 5, 10, 25);
 
 		}
@@ -106,11 +106,12 @@ public class AjoutPersonnels extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					PersonnelsManager pm = new PersonnelsManager();
 					try {
-						Personnels perso = new Personnels(txtNom.getText(), txtPrenom.getText(),
-								txtPrenom.getText().substring(0, 1) + txtNom.getText(), mdp.getText(),
+						Personnels perso = new Personnels(txtNom.getText(), txtPrenom.getText(), mdp.getText(),
 								txtRole.getText(), false);
 
 						pm.Create(perso);
+						AjoutPersonnels.this.dispose();
+						JOptionPane.showMessageDialog(frame,"Ajout éffectué");
 						
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(frame, e.getMessage());

@@ -76,24 +76,23 @@ public class Personnels {
 		this.login = login;
 	}
 
-	public Personnels(String nom, String prenom, String login, String motPasse, String role, Boolean archive)
-			throws BLLException {
+	public Personnels(String nom, String prenom, String motPasse, String role, Boolean archive) throws BLLException {
 		super();
 		this.setNom(nom);
 		this.setPrenom(prenom);
-		this.setLogin(login);
+		this.setLogin(String.format("%1s%2s", prenom.substring(0, 1), nom.trim()));
 		this.setMotPasse(motPasse);
 		this.setRole(role);
 		this.setArchive(archive);
 	}
 
-	public Personnels(Long codePerso, String nom, String prenom, String login, String motPasse, String role,
-			Boolean archive) throws BLLException {
+	public Personnels(Long codePerso, String nom, String prenom, String motPasse, String role, Boolean archive)
+			throws BLLException {
 		super();
 		this.setCodePerso(codePerso);
 		this.setNom(nom);
 		this.setPrenom(prenom);
-		this.setLogin(login);
+		this.setLogin(String.format("%1s%2s", prenom.substring(0, 1), nom.trim()));
 		this.setMotPasse(motPasse);
 		this.setRole(role);
 		this.setArchive(archive);
@@ -105,5 +104,4 @@ public class Personnels {
 				+ ", MotPasse=" + MotPasse + ", Role=" + Role + ", Archive=" + Archive + "]";
 	}
 
-	
 }

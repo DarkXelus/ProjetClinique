@@ -18,7 +18,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 	private static final String sqlLogin = "SELECT Role from Personnels where Nom ='%1s' AND MotPasse = '%2s'";
 	private static final String sqlRead = "SELECT * from Personnels where CodePers = %1d ";
 	private static final String sqlAll = "SELECT * from Personnels";
-	private static final String sqlCreate = "INSERT INTO Personnels(Nom,MotPasse,Role,Archive) VALUES ('%1s','%2s','%3s','%4b')";
+	private static final String sqlCreate = "INSERT INTO Personnels(Nom,Prenom,Login,MotPasse,Role,Archive) VALUES (?,?,?,?,?,?)";
 	private static final String sqlId = "SELECT CodePers from Personnels where Nom = '%1s' ";
 	private static final String sqlUpdate = "UPDATE Personnels SET Nom = '%1s',MotPasse = '%2',Role = '%3',Archive = '%4' WHERE Personnels.CodePers = %5 ";
 
@@ -99,8 +99,8 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 			rs = rqt.executeQuery();
 			if (rs.next()) {
 				try {
-					perso = new Personnels(rs.getString("Nom"), rs.getString("Prenom"), rs.getString("login"),
-							rs.getString("MotPasse"), rs.getString("Role"), rs.getBoolean("Archive"));
+					perso = new Personnels(rs.getString("Nom"), rs.getString("Prenom"), rs.getString("MotPasse"),
+							rs.getString("Role"), rs.getBoolean("Archive"));
 				} catch (BLLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -181,8 +181,8 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 			rs = rqt.executeQuery();
 			while (rs.next()) {
 				try {
-					perso = new Personnels(rs.getLong("CodePers"), rs.getString("Nom"),rs.getString("Prenom"),rs.getString("login") ,rs.getString("MotPasse"),
-							rs.getString("Role"), rs.getBoolean("Archive"));
+					perso = new Personnels(rs.getLong("CodePers"), rs.getString("Nom"), rs.getString("Prenom"),
+							rs.getString("MotPasse"), rs.getString("Role"), rs.getBoolean("Archive"));
 					lstPerso.add(perso);
 				} catch (BLLException e) {
 					// TODO Auto-generated catch block
@@ -217,8 +217,13 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 		ResultSet rs = null;
 		try {
 			cnx = JdbcTools.getConnection();
-			rqt = cnx.prepareStatement(
-					String.format(sqlCreate, data.getNom(), data.getMotPasse(), data.getRole(), data.getArchive()));
+			rqt = cnx.prepareStatement(sqlCreate);
+			rqt.setString(1, data.getNom());
+			rqt.setString(2, data.getPrenom());
+			rqt.setString(3,data.getLogin());
+			rqt.setString(4, data.getMotPasse());
+			rqt.setString(5, data.getRole());
+			rqt.setBoolean(6,data.getArchive());
 			rqt.executeUpdate();
 
 		} catch (SQLException e) {

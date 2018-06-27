@@ -11,21 +11,14 @@ public class AppliTestBll {
 		LoginManager lm = new LoginManager();
 		String test;
 		try {
-<<<<<<< HEAD
 			test = lm.Login("BOSAPIN","AniForm");
 		System.out.println(test);
-=======
 			test = lm.Login("BOSAPIN", "AniForm");
 			System.out.println(test);
->>>>>>> 27a5d24a1f211f5e0596509401868d1ebfbc1d82
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-<<<<<<< HEAD
-=======
-		
->>>>>>> 27a5d24a1f211f5e0596509401868d1ebfbc1d82
 
 		PersonnelsManager pm = new PersonnelsManager();
 		List<Personnels> lstPersonnels = new ArrayList<Personnels>();

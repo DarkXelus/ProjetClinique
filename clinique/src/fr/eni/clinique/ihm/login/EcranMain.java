@@ -18,10 +18,7 @@ import fr.eni.clinique.bll.LoginManager;
 
 public class EcranMain extends JFrame{
 	static JFrame frame;
-	private JLabel lblNom, lblMdp;
-	private JTextField jTxtNom;
-	private JPasswordField jPassMdp;
-	private JButton btnConnexion;
+	private JLabel lblNom;
 
 	public EcranMain(String rôle,String nom) {
 		super();

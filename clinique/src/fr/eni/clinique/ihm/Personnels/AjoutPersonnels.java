@@ -30,7 +30,6 @@ public class AjoutPersonnels extends JFrame {
 		setSize(500, 200);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		initIHM();
 	}
 

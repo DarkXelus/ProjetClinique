@@ -21,6 +21,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 	private static final String sqlCreate = "INSERT INTO Personnels(Nom,Prenom,Login,MotPasse,Role,Archive) VALUES (?,?,?,?,?,?)";
 	private static final String sqlId = "SELECT CodePers from Personnels where Nom = '%1s' ";
 	private static final String sqlUpdate = "UPDATE Personnels SET Nom = '%1s',MotPasse = '%2',Role = '%3',Archive = '%4' WHERE Personnels.CodePers = %5 ";
+	private static final String sqlDelete = "UPDATE Personnels SET Archivage = 'false' WHERE Personnels.CodePers = %5 ";
 
 	public void connexionStatus() throws DALException {
 		Connection cnx = null;
@@ -164,8 +165,35 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 
 	@Override
 	public void delete(Personnels obj) throws DALException {
-		// TODO Auto-generated method stub
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
+		Personnels data = read(GetId(obj));
 
+		if (data != null) {
+			try {
+				cnx = JdbcTools.getConnection();
+				rqt = cnx.prepareStatement(String.format(sqlDelete,GetId(obj)));
+				rqt.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DALException("Connexion failed :" + e.getMessage());
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (rqt != null) {
+						rqt.close();
+					}
+					if (cnx != null) {
+						cnx.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@Override

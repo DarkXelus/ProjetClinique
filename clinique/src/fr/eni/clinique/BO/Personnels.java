@@ -100,8 +100,7 @@ public class Personnels {
 
 	@Override
 	public String toString() {
-		return "Personnels [CodePerso=" + CodePerso + ", Nom=" + Nom + ", Prenom=" + Prenom + ", login=" + login
-				+ ", MotPasse=" + MotPasse + ", Role=" + Role + ", Archive=" + Archive + "]";
+		return  Nom + "   " + Prenom + "          "  + Role + "    " +  MotPasse;
 	}
 
 }

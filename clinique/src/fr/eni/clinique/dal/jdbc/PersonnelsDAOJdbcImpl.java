@@ -15,7 +15,7 @@ import fr.eni.clinique.dal.PersonnelsDAO;
 
 public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 
-	private static final String sqlLogin = "SELECT Role from Personnels where Nom ='%1s' AND MotPasse = '%2s'";
+	private static final String sqlLogin = "SELECT Role from Personnels where Login ='%1s' AND MotPasse = '%2s'";
 	private static final String sqlRead = "SELECT * from Personnels where CodePers = %1d ";
 	private static final String sqlAll = "SELECT * from Personnels";
 	private static final String sqlCreate = "INSERT INTO Personnels(Nom,Prenom,Login,MotPasse,Role,Archive) VALUES (?,?,?,?,?,?)";
@@ -50,7 +50,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 	}
 
 	@Override
-	public String Login(String name, String password) throws DALException, BLLException {
+	public String Login(String login, String password) throws DALException, BLLException {
 
 		String role = "vide";
 		Connection cnx = null;
@@ -58,7 +58,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 		ResultSet rs = null;
 		try {
 			cnx = JdbcTools.getConnection();
-			rqt = cnx.prepareStatement(String.format(sqlLogin, name, password));
+			rqt = cnx.prepareStatement(String.format(sqlLogin, login, password));
 			rs = rqt.executeQuery();
 			if (rs.next()) {
 				role = rs.getString("Role");

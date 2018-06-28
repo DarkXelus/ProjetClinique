@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import fr.eni.clinique.bll.BLLException;
+import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.ihm.Personnels.EcranGestionPersonnels;
 import fr.eni.clinique.ihm.Personnels.EcranGestionPersonnelstest;
 import fr.eni.clinique.ihm.clients.EcranGestionClients;
@@ -45,12 +47,17 @@ public class EcranMain extends JFrame {
 			btnPersonnels.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					
+
 					if (role.equals("PDA")) {
 						// Passage du role et du nom dans la vue Main
-						EcranGestionPersonnels ecranPersonnels = new EcranGestionPersonnels();
-						
-						ecranPersonnels.setVisible(true);
+						EcranGestionPersonnels ecranPersonnels;
+						try {
+							ecranPersonnels = new EcranGestionPersonnels();
+							ecranPersonnels.setVisible(true);
+						} catch (DALException | BLLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					} else {
 						JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
 					}
@@ -63,7 +70,7 @@ public class EcranMain extends JFrame {
 
 	public JButton getBtnClients(String role) {
 		if (btnClients == null) {
-			
+
 			btnClients = new JButton("Gestion des Clients");
 			btnClients.addActionListener(new ActionListener() {
 				@Override
@@ -77,7 +84,7 @@ public class EcranMain extends JFrame {
 				}
 			});
 		}
-		
+
 		return btnClients;
 	}
 

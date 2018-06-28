@@ -17,13 +17,13 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 
 	private static final String sqlLogin = "SELECT Role from Personnels where Login ='%1s' AND MotPasse = '%2s'";
 	private static final String sqlRead = "SELECT * from Personnels where CodePers = %1d ";
-	private static final String sqlAll = "SELECT * from Personnels";
+	private static final String sqlAll = "SELECT * from Personnels where Archive = 0";
 	private static final String sqlCreate = "INSERT INTO Personnels(Nom,Prenom,Login,MotPasse,Role,Archive) VALUES (?,?,?,?,?,?)";
-	private static final String sqlId = "SELECT CodePers from Personnels where Nom = '%1s' ";
+	private static final String sqlId = "SELECT CodePers from Personnels where Nom = '%1s' AND Prenom = '%2s'";
 	private static final String sqlUpdate = "UPDATE Personnels SET Nom = '%1s',MotPasse = '%2',Role = '%3',Archive = '%4' WHERE Personnels.CodePers = %5 ";
-	private static final String sqlDelete = "UPDATE Personnels SET Archivage = 'false' WHERE Personnels.CodePers = %5 ";
+	private static final String sqlDelete = "UPDATE Personnels SET Archive = 'true' WHERE Personnels.CodePers = ? ";
 
-	public void connexionStatus() throws DALException {
+	/*public void connexionStatus() throws DALException {
 		Connection cnx = null;
 		PreparedStatement rqt = null;
 		ResultSet rs = null;
@@ -48,7 +48,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 			}
 
 		}
-	}
+	}*/
 
 	@Override
 	public String Login(String login, String password) throws DALException, BLLException {
@@ -133,13 +133,13 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 		Connection cnx = null;
 		PreparedStatement rqt = null;
 		ResultSet rs = null;
-		Personnels data = read(GetId(newdata));
+		Personnels data = read(GetID(newdata.getNom(), newdata.getPrenom()));
 
 		if (data != null) {
 			try {
 				cnx = JdbcTools.getConnection();
 				rqt = cnx.prepareStatement(String.format(sqlUpdate, newdata.getNom(), newdata.getMotPasse(),
-						newdata.getRole(), newdata.getArchive(), GetId(newdata)));
+						newdata.getRole(), newdata.getArchive(), GetID(newdata.getNom(), newdata.getPrenom())));
 				rqt.executeUpdate();
 
 			} catch (SQLException e) {
@@ -161,39 +161,6 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 			}
 		}
 
-	}
-
-	@Override
-	public void delete(Personnels obj) throws DALException {
-		Connection cnx = null;
-		PreparedStatement rqt = null;
-		ResultSet rs = null;
-		Personnels data = read(GetId(obj));
-
-		if (data != null) {
-			try {
-				cnx = JdbcTools.getConnection();
-				rqt = cnx.prepareStatement(String.format(sqlDelete,GetId(obj)));
-				rqt.executeUpdate();
-
-			} catch (SQLException e) {
-				throw new DALException("Connexion failed :" + e.getMessage());
-			} finally {
-				try {
-					if (rs != null) {
-						rs.close();
-					}
-					if (rqt != null) {
-						rqt.close();
-					}
-					if (cnx != null) {
-						cnx.close();
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
 	}
 
 	@Override
@@ -238,6 +205,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 		return lstPerso;
 	}
 
+
 	@Override
 	public void create(Personnels data) throws DALException {
 		Connection cnx = null;
@@ -248,10 +216,10 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 			rqt = cnx.prepareStatement(sqlCreate);
 			rqt.setString(1, data.getNom());
 			rqt.setString(2, data.getPrenom());
-			rqt.setString(3,data.getLogin());
+			rqt.setString(3, data.getLogin());
 			rqt.setString(4, data.getMotPasse());
 			rqt.setString(5, data.getRole());
-			rqt.setBoolean(6,data.getArchive());
+			rqt.setBoolean(6, data.getArchive());
 			rqt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -273,14 +241,14 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 		}
 	}
 
-	public Long GetId(Personnels perso) throws DALException {
+	public Long GetID(String nom, String prenom) throws DALException {
 		Connection cnx = null;
 		PreparedStatement rqt = null;
 		ResultSet rs = null;
 		Long id = null;
 		try {
-			cnx = JdbcTools.getConnection();
-			rqt = cnx.prepareStatement(String.format(sqlId, id));
+ 			cnx = JdbcTools.getConnection();
+			rqt = cnx.prepareStatement(String.format(sqlId, nom, prenom));
 			rs = rqt.executeQuery();
 			if (rs.next()) {
 				id = rs.getLong("CodePers");
@@ -306,4 +274,38 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 		return id;
 	}
 
+	@Override
+	public void delete(Personnels obj) throws DALException {
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
+		Personnels data = read(GetID(obj.getNom(), obj.getPrenom()));
+
+		if (data != null) {
+			try {
+				cnx = JdbcTools.getConnection();
+				rqt = cnx.prepareStatement(sqlDelete );
+				rqt.setLong(1, GetID(obj.getNom(), obj.getPrenom()));
+				rqt.executeUpdate();
+
+			} catch (SQLException e) {
+				throw new DALException("Connexion failed :" + e.getMessage());
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (rqt != null) {
+						rqt.close();
+					}
+					if (cnx != null) {
+						cnx.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
 }

@@ -8,12 +8,17 @@ import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
 import fr.eni.clinique.dal.PersonnelsDAO;
 
-public class PersonnelsManager {
+public class PersonnelsManager  {
 
 	PersonnelsDAO daoPersonnels;
 
 	public PersonnelsManager() {
 		daoPersonnels = DAOFactory.getPersonnelsDAO();
+	}
+	
+	public void delete(Personnels perso) throws DALException, BLLException
+	{
+		daoPersonnels.delete(perso);
 	}
 
 	public void Create(Personnels perso) throws DALException, BLLException {

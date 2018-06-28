@@ -100,7 +100,9 @@ public class Personnels {
 
 	@Override
 	public String toString() {
-		return  Nom + "   " + Prenom + "          "  + Role + "    " +  MotPasse;
+		return  String.format("%1s %2s       %3s     %4s", Nom,Prenom,Role,MotPasse);
 	}
+	
+	
 
 }

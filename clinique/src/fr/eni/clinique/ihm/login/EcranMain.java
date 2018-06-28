@@ -12,8 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import fr.eni.clinique.bll.LoginManager;
 import fr.eni.clinique.ihm.Personnels.EcranGestionPersonnels;
+import fr.eni.clinique.ihm.Personnels.EcranGestionPersonnelstest;
 import fr.eni.clinique.ihm.clients.EcranGestionClients;
 
 @SuppressWarnings("serial")
@@ -46,9 +46,10 @@ public class EcranMain extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					
-					if (!role.equals("PDA")) {
+					if (role.equals("PDA")) {
 						// Passage du role et du nom dans la vue Main
-						EcranGestionPersonnels ecranPersonnels = new EcranGestionPersonnels(role, nom);
+						EcranGestionPersonnels ecranPersonnels = new EcranGestionPersonnels();
+						
 						ecranPersonnels.setVisible(true);
 					} else {
 						JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");

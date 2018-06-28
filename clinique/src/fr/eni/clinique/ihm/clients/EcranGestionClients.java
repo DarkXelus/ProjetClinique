@@ -51,7 +51,7 @@ public class EcranGestionClients extends JFrame {
 		JButton btnAdd = new JButton("Ajouter");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				EcranAddClient ac = new EcranAddClient();
+				AjoutClient ac = new AjoutClient();
 				ac.setVisible(true);
 			}
 		});

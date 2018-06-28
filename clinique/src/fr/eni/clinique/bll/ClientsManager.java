@@ -5,19 +5,19 @@ import java.util.List;
 
 import fr.eni.clinique.BO.Clients;
 import fr.eni.clinique.BO.Personnels;
-import fr.eni.clinique.dal.ClientDAO;
+import fr.eni.clinique.dal.ClientsDAO;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
 
 public class ClientsManager {
 
-	ClientDAO daoClients;
+	ClientsDAO daoClients;
 
 	public ClientsManager() {
 		daoClients = DAOFactory.getClientsDAO();
 	}
 
-	public void create(Clients cli) {
+	public void create(Clients cli) throws Exception {
 		try {
 			CheckField.CheckClientName(cli.getNomClient());
 			CheckField.CheckClientPrenom(cli.getPrenomClient());

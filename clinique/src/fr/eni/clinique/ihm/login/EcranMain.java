@@ -82,7 +82,6 @@ public class EcranMain extends JFrame {
 	}
 
 	private void initIHM(String role, String nom) {
-
 		JPanel panel = new JPanel();
 		panel.setOpaque(true);
 		panel.setLayout(new GridBagLayout());

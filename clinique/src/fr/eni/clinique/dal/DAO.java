@@ -1,6 +1,5 @@
 package fr.eni.clinique.dal;
 
-import fr.eni.clinique.BO.Personnels;
 import fr.eni.clinique.bll.BLLException;
 
 public interface DAO<T> {

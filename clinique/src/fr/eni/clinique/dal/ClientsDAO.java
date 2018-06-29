@@ -3,7 +3,6 @@ package fr.eni.clinique.dal;
 import java.util.List;
 
 import fr.eni.clinique.BO.Clients;
-import fr.eni.clinique.BO.Personnels;
 import fr.eni.clinique.bll.BLLException;
 
 public interface ClientsDAO extends DAO<Clients> {
@@ -17,4 +16,8 @@ public interface ClientsDAO extends DAO<Clients> {
 	public Long GetID(String nomClient,String prenomClient) throws DALException;
 	
 	public Clients read(Long id) throws DALException, BLLException ;
+	
+	public void update(Clients client) throws DALException, BLLException ;
+	
+	public List<Clients> search(String txt) throws DALException, BLLException;
 }

@@ -18,10 +18,10 @@ public class ClientsDAOJdbcImpl implements ClientsDAO {
 	private static final String sqlAll = "SELECT * from Clients WHERE Archive= 0";
 	private static final String sqlCreate = "INSERT INTO Clients(NomClient,PrenomClient,Adresse1,Adresse2,CodePostal,Ville,NumTel,Assurance,Email,Remarque,Archive) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String sqlRead = "SELECT * from Clients where CodeClient = %1d ";
-	private static final String sqlUpdate = "UPDATE Clients SET NomClient = '%1s', PrenomClient = '%2',Adresse1 = '%3',Adresse2 = '%4',CodePostal = '%5',Ville ='%6',Ville = '%7',NumTel ='%8',Assurance = '%9',Email='%10',Remarque ='%11' WHERE Clients.CodeClient = %12";
+	private static final String sqlUpdate = "UPDATE Clients SET NomClient = ?, PrenomClient = ?,Adresse1 = ?,Adresse2 = ?,CodePostal = ?,Ville = ?,NumTel = ?,Assurance = ?,Email= ?,Remarque = ?, Archive = ? WHERE Clients.CodeClient = ? ";
 	private static final String sqlDelete = "UPDATE Clients SET Archive = 'true' WHERE Clients.CodeClient = ? ";
 	private static final String sqlId = "SELECT CodeClient from Clients where NomClient = '%1s' AND PrenomClient = '%2s'";
-
+	private static final String sqlSearch = "SELECT * FROM Clients WHERE NomClient = '?%'";
 
 	// Test connexion a la base de donnée
 	public void connexionStatus() throws DALException {
@@ -62,9 +62,9 @@ public class ClientsDAOJdbcImpl implements ClientsDAO {
 			rqt = cnx.prepareStatement(String.format(sqlRead, id));
 			rs = rqt.executeQuery();
 			if (rs.next()) {
-				cli = new Clients(rs.getString("NomClient"), rs.getString("PrenomClient"), rs.getString("Adresse1"),
-						rs.getString("Adresse2"), rs.getString("CodePostal"), rs.getString("Ville"),
-						rs.getString("NumTel"), rs.getString("Assurance"), rs.getString("Email"),
+				cli = new Clients(rs.getLong("CodeClient"), rs.getString("NomClient"), rs.getString("PrenomClient"),
+						rs.getString("Adresse1"), rs.getString("Adresse2"), rs.getString("CodePostal"),
+						rs.getString("Ville"), rs.getString("NumTel"), rs.getString("Assurance"), rs.getString("Email"),
 						rs.getString("Remarque"), rs.getBoolean("Archive"));
 			}
 
@@ -98,10 +98,20 @@ public class ClientsDAOJdbcImpl implements ClientsDAO {
 		if (data != null) {
 			try {
 				cnx = JdbcTools.getConnection();
-				rqt = cnx.prepareStatement(String.format(sqlUpdate, newdata.getNomClient(), newdata.getPrenomClient(),
-						newdata.getAdresse1(), newdata.getAdresse2(), newdata.getCodePostal(), newdata.getVille(),
-						newdata.getNumTel(), newdata.getAssurance(), newdata.getEmail(), newdata.getRemarque(),
-						GetID(newdata.getNomClient(), newdata.getPrenomClient())));
+				rqt = cnx.prepareStatement(sqlUpdate);
+				rqt.setString(1, newdata.getNomClient());
+				rqt.setString(2, newdata.getPrenomClient());
+				rqt.setString(3, newdata.getAdresse1());
+				rqt.setString(4, newdata.getAdresse2());
+				rqt.setString(5, newdata.getCodePostal());
+				rqt.setString(6, newdata.getVille());
+				rqt.setString(7, newdata.getNumTel());
+				rqt.setString(8, newdata.getAssurance());
+				rqt.setString(9, newdata.getEmail());
+				rqt.setString(10, newdata.getRemarque());
+				rqt.setBoolean(11, newdata.getArchive());
+				rqt.setLong(12, data.getCodeClient());
+
 				rqt.executeUpdate();
 
 			} catch (SQLException e) {
@@ -122,6 +132,44 @@ public class ClientsDAOJdbcImpl implements ClientsDAO {
 				}
 			}
 		}
+	}
+
+	public List<Clients> search(String txt) throws DALException, BLLException {
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
+		List<Clients> lstClients = new ArrayList<Clients>();
+		Clients cli = null;
+		try {
+			cnx = JdbcTools.getConnection();
+			rqt = cnx.prepareStatement(sqlSearch);
+			rqt.setString(1, txt);
+			rs = rqt.executeQuery();
+			while (rs.next()) {
+				cli = new Clients(rs.getLong("CodeClient"), rs.getString("NomClient"), rs.getString("PrenomClient"),
+						rs.getString("Adresse1"), rs.getString("Adresse2"), rs.getString("CodePostal"),
+						rs.getString("Ville"), rs.getString("NumTel"), rs.getString("Assurance"), rs.getString("Email"),
+						rs.getString("Remarque"), rs.getBoolean("Archive"));
+				lstClients.add(cli);
+			}
+		} catch (SQLException e) {
+			throw new DALException("Connexion failed :" + e.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (rqt != null) {
+					rqt.close();
+				}
+				if (cnx != null) {
+					cnx.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return lstClients;
 	}
 
 	public List<Clients> selectAll() throws DALException, BLLException {

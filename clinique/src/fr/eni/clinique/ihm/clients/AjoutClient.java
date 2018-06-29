@@ -194,10 +194,10 @@ public class AjoutClient extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					ClientsManager cm = new ClientsManager();
 					try {
-						if (txtNom.getText() == null || txtPrenom.getText() == null || txtAdresse1.getText() == null
-								|| txtCodePostal.getText() == null || txtVille.getText() == null
-								|| txtNumTel.getText() == null || txtAssurance.getText() == null
-								|| txtEmail.getText() == null) {
+						if (txtNom.getText() != null || txtPrenom.getText() != null || txtAdresse1.getText() != null ||
+								txtCodePostal.getText() != null || txtVille.getText() != null ||
+								txtNumTel.getText() != null || txtAssurance.getText() != null ||
+								txtEmail.getText() != null) {
 							Clients cli = new Clients(txtNom.getText(), txtPrenom.getText(), txtAdresse1.getText(),
 									txtAdresse2.getText(), txtCodePostal.getText(), txtVille.getText(),
 									txtNumTel.getText(), txtAssurance.getText(), txtEmail.getText(),

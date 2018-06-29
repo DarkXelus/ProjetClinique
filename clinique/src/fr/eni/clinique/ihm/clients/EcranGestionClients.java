@@ -1,28 +1,23 @@
 package fr.eni.clinique.ihm.clients;
 
 import javax.swing.JFrame;
-import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
 import fr.eni.clinique.BO.Clients;
-import fr.eni.clinique.BO.Personnels;
 import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.bll.ClientsManager;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.ihm.login.EcranLogin;
-import fr.eni.clinique.ihm.login.EcranMain;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
-import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -30,12 +25,12 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JMenu;
 import javax.swing.JTable;
 
 @SuppressWarnings("serial")
 public class EcranGestionClients extends JFrame {
-	private JTextField txtCodeClient;
 	private JTextField txtNom;
 	private JTextField txtPrenom;
 	private JTextField txtAdresse1;
@@ -47,13 +42,14 @@ public class EcranGestionClients extends JFrame {
 	private JTextField txtEmail;
 	private JTextField txtRemarque;
 	private JTable table;
-
+	private JFrame frame;
+	
 	public EcranGestionClients() {
 		super("Ecran de Gestion des Clients");
 		setSize(878, 430);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 140, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0,
 				Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
@@ -65,6 +61,8 @@ public class EcranGestionClients extends JFrame {
 				"C:\\Users\\rduclos2017\\Documents\\ressources\\Java\\MDI\\ProjetClinique\\clinique\\icon\\search.png"));
 		btnRechercher.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				SearchClients search = new SearchClients();
+				search.setVisible(true);
 			}
 		});
 		GridBagConstraints gbc_btnRechercher = new GridBagConstraints();
@@ -111,6 +109,24 @@ public class EcranGestionClients extends JFrame {
 		getContentPane().add(btnDelete, gbc_btnDelete);
 
 		JButton btnValider = new JButton("Valider");
+		btnValider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ClientsManager cm = new ClientsManager();
+				try {
+					Clients client = new Clients(txtNom.getText(),txtPrenom.getText(),txtAdresse1.getText(),
+							txtAdresse2.getText(),txtCodePostal.getText(),txtVille.getText(),txtNumTel.getText(),txtAssurance.getText(),
+							txtEmail.getText(),txtRemarque.getText(),false);
+					cm.update(client);
+					EcranGestionClients.this.dispose();
+					EcranGestionClients clients = new EcranGestionClients();
+					clients.setVisible(true);
+					clients.setLocationRelativeTo(null);
+					JOptionPane.showMessageDialog(frame, "Modification effectué");
+				} catch (DALException | BLLException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		btnValider.setIcon(new ImageIcon(
 				"C:\\Users\\rduclos2017\\Documents\\ressources\\Java\\MDI\\ProjetClinique\\clinique\\icon\\checked.png"));
 		GridBagConstraints gbc_btnValider = new GridBagConstraints();
@@ -120,6 +136,29 @@ public class EcranGestionClients extends JFrame {
 		getContentPane().add(btnValider, gbc_btnValider);
 
 		JButton btnSupprimer = new JButton("Annuler");
+		btnSupprimer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String nomClient = table.getValueAt(table.getSelectedRow(), 0).toString();
+				String prenomClient = table.getValueAt(table.getSelectedRow(), 1).toString();
+				ClientsManager cm = new ClientsManager();
+				try {
+					Long Id = cm.GetID(nomClient, prenomClient);
+					Clients client = cm.read(Id);
+					txtNom.setText(client.getNomClient());
+					txtPrenom.setText(client.getPrenomClient());
+					txtAdresse1.setText(client.getAdresse1());
+					txtAdresse2.setText(client.getAdresse2());
+					txtCodePostal.setText(client.getCodePostal());
+					txtVille.setText(client.getVille());
+					txtNumTel.setText(client.getNumTel());
+					txtAssurance.setText(client.getAssurance());
+					txtEmail.setText(client.getEmail());
+					txtRemarque.setText(client.getRemarque());
+				} catch (DALException | BLLException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		btnSupprimer.setIcon(new ImageIcon(
 				"C:\\Users\\rduclos2017\\Documents\\ressources\\Java\\MDI\\ProjetClinique\\clinique\\icon\\back-arrow.png"));
 		GridBagConstraints gbc_btnSupprimer = new GridBagConstraints();
@@ -128,23 +167,6 @@ public class EcranGestionClients extends JFrame {
 		gbc_btnSupprimer.gridy = 1;
 		getContentPane().add(btnSupprimer, gbc_btnSupprimer);
 
-		JLabel lblCodeClient = new JLabel("Code Client:");
-		GridBagConstraints gbc_lblCodeClient = new GridBagConstraints();
-		gbc_lblCodeClient.anchor = GridBagConstraints.EAST;
-		gbc_lblCodeClient.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCodeClient.gridx = 1;
-		gbc_lblCodeClient.gridy = 3;
-		getContentPane().add(lblCodeClient, gbc_lblCodeClient);
-
-		txtCodeClient = new JTextField();
-		GridBagConstraints gbc_txtCodeClient = new GridBagConstraints();
-		gbc_txtCodeClient.gridwidth = 5;
-		gbc_txtCodeClient.insets = new Insets(0, 0, 5, 5);
-		gbc_txtCodeClient.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtCodeClient.gridx = 2;
-		gbc_txtCodeClient.gridy = 3;
-		getContentPane().add(txtCodeClient, gbc_txtCodeClient);
-		txtCodeClient.setColumns(10);
 
 		JLabel lblNom = new JLabel("Nom du Client:");
 		GridBagConstraints gbc_lblNom = new GridBagConstraints();
@@ -167,15 +189,12 @@ public class EcranGestionClients extends JFrame {
 		table = new JTable(initTableModel());
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent event) {
-				// System.out.println(table.getValueAt(table.getSelectedRow(),
-				// 0).toString());
 				String nomClient = table.getValueAt(table.getSelectedRow(), 0).toString();
 				String prenomClient = table.getValueAt(table.getSelectedRow(), 1).toString();
 				ClientsManager cm = new ClientsManager();
 				try {
 					Long Id = cm.GetID(nomClient, prenomClient);
 					Clients client = cm.read(Id);
-					txtCodeClient.setText(Id.toString());
 					txtNom.setText(client.getNomClient());
 					txtPrenom.setText(client.getPrenomClient());
 					txtAdresse1.setText(client.getAdresse1());
@@ -187,7 +206,6 @@ public class EcranGestionClients extends JFrame {
 					txtEmail.setText(client.getEmail());
 					txtRemarque.setText(client.getRemarque());
 				} catch (DALException | BLLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

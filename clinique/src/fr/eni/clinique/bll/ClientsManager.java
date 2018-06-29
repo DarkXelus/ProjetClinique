@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.clinique.BO.Clients;
-import fr.eni.clinique.BO.Personnels;
 import fr.eni.clinique.dal.ClientsDAO;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
@@ -69,6 +68,24 @@ public class ClientsManager {
 			throw e;
 		}
 		return cli;
+	}
+	
+	public void update(Clients cli) throws BLLException, DALException {
+		try {
+			daoClients.update(cli);
+		} catch (DALException e) {
+			throw e;
+		}
+	}
+	
+	public List<Clients> search(String txt) throws DALException, BLLException {
+		List<Clients> lstClients = new ArrayList<Clients>();
+		try {
+			lstClients = daoClients.search(txt);
+		} catch (DALException e) {
+			throw e;
+		}
+		return lstClients;
 	}
 
 }

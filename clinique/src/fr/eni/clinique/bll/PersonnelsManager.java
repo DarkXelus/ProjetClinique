@@ -29,6 +29,7 @@ public class PersonnelsManager  {
 	public void Create(Personnels perso) throws DALException, BLLException {
 		try {
 			CheckField.CheckPersoName(perso.getNom());
+			CheckField.CheckPersoPrenom(perso.getPrenom());
 			CheckField.CheckPersoPassword(perso.getMotPasse());
 			CheckField.CheckPersoRole(perso.getRole());
 

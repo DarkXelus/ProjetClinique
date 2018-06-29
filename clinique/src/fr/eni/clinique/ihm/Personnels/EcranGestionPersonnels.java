@@ -18,13 +18,10 @@ import fr.eni.clinique.BO.Personnels;
 import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.bll.PersonnelsManager;
 import fr.eni.clinique.dal.DALException;
-import fr.eni.clinique.ihm.login.EcranLogin;
-
 import java.awt.Insets;
 import javax.swing.JTable;
 import java.awt.Color;
 import javax.swing.SwingConstants;
-import java.awt.SystemColor;
 import javax.swing.UIManager;
 import javax.swing.ImageIcon;
 

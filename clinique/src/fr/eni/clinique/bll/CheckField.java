@@ -7,7 +7,13 @@ public class CheckField {
 			throw new BLLException("Le nom est trop long, il est limité a 30 caractères");
 		}
 	}
-
+	
+	public static void CheckPersoPrenom(String name) throws BLLException {
+		if (name.length() > 30) {
+			throw new BLLException("Le prenom est trop long, il est limité a 30 caractères");
+		}
+	}
+	
 	public static void CheckPersoPassword(String Password) throws BLLException {
 		if (Password.length() > 10) {
 			throw new BLLException(

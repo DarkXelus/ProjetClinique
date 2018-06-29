@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.ihm.Personnels.EcranGestionPersonnels;
-import fr.eni.clinique.ihm.Personnels.EcranGestionPersonnelstest;
 import fr.eni.clinique.ihm.clients.EcranGestionClients;
 
 @SuppressWarnings("serial")

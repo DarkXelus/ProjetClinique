@@ -15,7 +15,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import fr.eni.clinique.BO.Personnels;
+import fr.eni.clinique.bll.BLLException;
+import fr.eni.clinique.bll.CheckField;
 import fr.eni.clinique.bll.PersonnelsManager;
+import fr.eni.clinique.bll.SingletonGestionClient;
+import fr.eni.clinique.dal.DALException;
 
 @SuppressWarnings("serial")
 public class AjoutPersonnels extends JFrame {
@@ -103,18 +107,27 @@ public class AjoutPersonnels extends JFrame {
 			btnConfirmer.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					PersonnelsManager pm = new PersonnelsManager();
 					try {
+						/*CheckField.CheckPersoName(txtNom.getText());
+						CheckField.CheckPersoPrenom(txtPrenom.getText());
+						CheckField.CheckPersoPassword(mdp.getText());
+						CheckField.CheckPersoRole(txtRole.getText());*/
+
+						PersonnelsManager pm = new PersonnelsManager();
 						Personnels perso = new Personnels(txtNom.getText(), txtPrenom.getText(), mdp.getText(),
 								txtRole.getText(), false);
 
 						pm.Create(perso);
-						AjoutPersonnels.this.dispose();
-						JOptionPane.showMessageDialog(frame,"Ajout éffectué");
+						SingletonGestionClient.getInstance().getTest().dispose();
 						
-					} catch (Exception e) {
+						AjoutPersonnels.this.dispose();
+						EcranGestionPersonnels ecranPerso = new EcranGestionPersonnels();
+						ecranPerso.setVisible(true);
+						JOptionPane.showMessageDialog(frame, "Ajout éffectué");
+					} catch (DALException | BLLException e) {
 						JOptionPane.showMessageDialog(frame, e.getMessage());
 					}
+
 				}
 			});
 

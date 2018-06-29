@@ -16,6 +16,11 @@ public class PersonnelsManager  {
 		daoPersonnels = DAOFactory.getPersonnelsDAO();
 	}
 	
+	public void updatePass(Personnels perso) throws DALException, BLLException
+	{
+		daoPersonnels.PasswordUpdate(perso);
+	}
+	
 	public void delete(Personnels perso) throws DALException, BLLException
 	{
 		daoPersonnels.delete(perso);

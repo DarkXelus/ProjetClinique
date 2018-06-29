@@ -1,6 +1,8 @@
 package fr.eni.clinique.ihm.Personnels;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
@@ -16,6 +18,7 @@ import fr.eni.clinique.BO.Personnels;
 import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.bll.PersonnelsManager;
 import fr.eni.clinique.dal.DALException;
+import fr.eni.clinique.ihm.login.EcranLogin;
 
 import java.awt.Insets;
 import javax.swing.JTable;
@@ -63,7 +66,11 @@ public class EcranGestionPersonnels extends JFrame {
 				try {
 					Personnels perso = pm.SelectAll().get(table.getSelectedRow());
 					pm.delete(perso);
-					table = new JTable(initTableModel());
+
+					EcranGestionPersonnels.this.dispose();
+					EcranGestionPersonnels ecranPersonnels = new EcranGestionPersonnels();
+					ecranPersonnels.setVisible(true);
+					
 				} catch (DALException | BLLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -79,6 +86,20 @@ public class EcranGestionPersonnels extends JFrame {
 		getContentPane().add(btnSupprimer, gbc_btnSupprimer);
 
 		JButton btnReinitialiser = new JButton("Reinitialiser");
+		btnReinitialiser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				PersonnelsManager pm = new PersonnelsManager();
+				try {
+					Personnels perso = pm.SelectAll().get(table.getSelectedRow());
+					perso.setMotPasse(JOptionPane.showInputDialog(null, "Saisissez le nouveau mot de passe :",
+				            "Modifier le mot de passe", JOptionPane.PLAIN_MESSAGE));
+					pm.updatePass(perso);
+					
+				} catch (DALException | BLLException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		btnReinitialiser.setIcon(new ImageIcon(
 				"C:\\Users\\ttourgis2017\\Documents\\GitHub\\ProjetClinique\\clinique\\icon\\back-arrow.png"));
 		btnReinitialiser.setHorizontalAlignment(SwingConstants.LEFT);

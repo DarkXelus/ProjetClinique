@@ -11,6 +11,7 @@ public interface PersonnelsDAO extends DAO<Personnels> {
 
 	public String Login(String name, String password) throws DALException, BLLException;
 	public void create(Personnels perso) throws DALException;
-	public void delete(Personnels perso) throws DALException;
+	public void delete(Personnels perso) throws DALException, BLLException;
 	public Long GetID(String nom,String prenom) throws DALException;
+	public void PasswordUpdate(Personnels newdata) throws DALException, BLLException;
 }

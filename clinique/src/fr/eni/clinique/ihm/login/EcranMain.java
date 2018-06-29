@@ -9,6 +9,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -26,7 +29,7 @@ public class EcranMain extends JFrame {
 
 	public EcranMain(String role, String nom) {
 		super("Ecran Principal");
-		setSize(500, 100);
+		setSize(500, 200);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,7 +66,6 @@ public class EcranMain extends JFrame {
 					}
 				}
 			});
-
 		}
 		return btnPersonnels;
 	}
@@ -107,6 +109,30 @@ public class EcranMain extends JFrame {
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		panel.add(getBtnClients(role), gbc);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		JMenu mnGnral = new JMenu("G\u00E9n\u00E9ral");
+		menuBar.add(mnGnral);
+
+		JMenuItem mntmDconnexion = new JMenuItem("D\u00E9connexion");
+		mnGnral.add(mntmDconnexion);
+
+		JMenuItem mntmFermer = new JMenuItem("Fermer");
+		mnGnral.add(mntmFermer);
+
+		JMenu mnAjoutDunClient = new JMenu("Client");
+		menuBar.add(mnAjoutDunClient);
+
+		JMenuItem mntmGrerLesClients = new JMenuItem("G\u00E9rer les clients");
+		mnAjoutDunClient.add(mntmGrerLesClients);
+
+		JMenu mnPersonnel = new JMenu("Personnel");
+		menuBar.add(mnPersonnel);
+
+		JMenuItem mntmGrerLePersonnel = new JMenuItem("G\u00E9rer le personnel");
+		mnPersonnel.add(mntmGrerLePersonnel);
 
 		this.setContentPane(panel);
 	}

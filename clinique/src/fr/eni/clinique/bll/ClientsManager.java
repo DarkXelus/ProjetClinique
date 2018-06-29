@@ -17,6 +17,10 @@ public class ClientsManager {
 		daoClients = DAOFactory.getClientsDAO();
 	}
 
+	public void delete(Clients client) throws DALException, BLLException {
+		daoClients.delete(client);
+	}
+
 	public void create(Clients cli) throws Exception {
 		try {
 			CheckField.CheckClientName(cli.getNomClient());
@@ -33,7 +37,6 @@ public class ClientsManager {
 			daoClients.create(cli);
 
 		} catch (DALException | BLLException e) {
-			// TODO Auto-generated catch block
 			throw e;
 		}
 	}
@@ -43,9 +46,29 @@ public class ClientsManager {
 		try {
 			lstClients = daoClients.selectAll();
 		} catch (DALException | BLLException e) {
-			// TODO Auto-generated catch block
 			throw e;
 		}
 		return lstClients;
 	}
+
+	public Long GetID(String nomClient, String prenomClient) throws DALException {
+		Long Id = null;
+		try {
+			Id = daoClients.GetID(nomClient, prenomClient);
+		} catch (DALException e) {
+			throw e;
+		}
+		return Id;
+	}
+	
+	public Clients read(Long id) throws DALException, BLLException  {
+		Clients cli = new Clients(null, null, null, null, null, null, null, null, null, null, null);
+		try {
+			cli = daoClients.read(id);
+		} catch (DALException e) {
+			throw e;
+		}
+		return cli;
+	}
+
 }

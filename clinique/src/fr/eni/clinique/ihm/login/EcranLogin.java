@@ -79,7 +79,7 @@ public class EcranLogin extends JFrame {
 						// Passage du role et du nom dans la vue Main
 						EcranMain main = new EcranMain(role, login);
 						main.setVisible(true);
-						EcranLogin.this.dispose();
+						EcranLogin.this.dispose();						
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(frame, "Login ou Mot de passe incorrect");
 					}

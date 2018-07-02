@@ -16,7 +16,6 @@ import javax.swing.JTextField;
 
 import fr.eni.clinique.BO.Personnels;
 import fr.eni.clinique.bll.BLLException;
-import fr.eni.clinique.bll.CheckField;
 import fr.eni.clinique.bll.PersonnelsManager;
 import fr.eni.clinique.bll.SingletonGestionClient;
 import fr.eni.clinique.dal.DALException;
@@ -94,7 +93,6 @@ public class AjoutPersonnels extends JFrame {
 	public JTextField getTxtRole() {
 		if (txtRole == null) {
 			txtRole = new JTextField(20);
-			// txtRole.;
 			txtRole.setBounds(5, 5, 10, 25);
 
 		}
@@ -108,19 +106,15 @@ public class AjoutPersonnels extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						/*CheckField.CheckPersoName(txtNom.getText());
-						CheckField.CheckPersoPrenom(txtPrenom.getText());
-						CheckField.CheckPersoPassword(mdp.getText());
-						CheckField.CheckPersoRole(txtRole.getText());*/
 
 						PersonnelsManager pm = new PersonnelsManager();
 						Personnels perso = new Personnels(txtNom.getText(), txtPrenom.getText(), mdp.getText(),
 								txtRole.getText(), false);
 
 						pm.Create(perso);
-						SingletonGestionClient.getInstance().getTest().dispose();
 						
 						AjoutPersonnels.this.dispose();
+						SingletonGestionClient.getInstance().getTest().dispose();
 						EcranGestionPersonnels ecranPerso = new EcranGestionPersonnels();
 						ecranPerso.setVisible(true);
 						JOptionPane.showMessageDialog(frame, "Ajout éffectué");

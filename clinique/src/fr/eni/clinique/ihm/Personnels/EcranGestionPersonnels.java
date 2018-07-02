@@ -24,6 +24,8 @@ import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.ImageIcon;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public class EcranGestionPersonnels extends JFrame {
@@ -35,7 +37,7 @@ public class EcranGestionPersonnels extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
@@ -59,27 +61,34 @@ public class EcranGestionPersonnels extends JFrame {
 		JButton btnSupprimer = new JButton("Supprimer");
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				PersonnelsManager pm = new PersonnelsManager();
-				try {
-					Personnels perso = pm.SelectAll().get(table.getSelectedRow());
-					pm.delete(perso);
+				if (table.getSelectedRowCount() != 0) {
+					PersonnelsManager pm = new PersonnelsManager();
+					try {
+						Personnels perso = pm.SelectAll().get(table.getSelectedRow());
+						pm.delete(perso);
 
-					EcranGestionPersonnels.this.dispose();
-					EcranGestionPersonnels ecranPersonnels = new EcranGestionPersonnels();
-					ecranPersonnels.setVisible(true);
-					
-				} catch (DALException | BLLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+						EcranGestionPersonnels.this.dispose();
+						EcranGestionPersonnels ecranPersonnels = new EcranGestionPersonnels();
+						ecranPersonnels.setVisible(true);
+					} catch (DALException | BLLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+
+					JOptionPane.showMessageDialog(null, "Vous devez selectionner un membre du personnels",
+							"Supprimer un membre du personnel", JOptionPane.PLAIN_MESSAGE);
 				}
 			}
 		});
 		btnSupprimer.setIcon(new ImageIcon(
 				"C:\\Users\\ttourgis2017\\Documents\\GitHub\\ProjetClinique\\clinique\\icon\\rubbish-bin.png"));
+
 		GridBagConstraints gbc_btnSupprimer = new GridBagConstraints();
 		gbc_btnSupprimer.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSupprimer.gridx = 1;
 		gbc_btnSupprimer.gridy = 0;
+
 		getContentPane().add(btnSupprimer, gbc_btnSupprimer);
 
 		JButton btnReinitialiser = new JButton("Reinitialiser");
@@ -87,11 +96,17 @@ public class EcranGestionPersonnels extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				PersonnelsManager pm = new PersonnelsManager();
 				try {
-					Personnels perso = pm.SelectAll().get(table.getSelectedRow());
-					perso.setMotPasse(JOptionPane.showInputDialog(null, "Saisissez le nouveau mot de passe :",
-				            "Modifier le mot de passe", JOptionPane.PLAIN_MESSAGE));
-					pm.updatePass(perso);
-					
+					if (table.getSelectedRowCount() != 0) {
+						Personnels perso = pm.SelectAll().get(table.getSelectedRow());
+						perso.setMotPasse(JOptionPane.showInputDialog(null, "Saisissez le nouveau mot de passe :",
+								"Modifier le mot de passe", JOptionPane.PLAIN_MESSAGE));
+						pm.updatePass(perso);
+					} else {
+
+						JOptionPane.showMessageDialog(null, "Vous devez selectionner un membre du personnels",
+								"Modifier le mot de passe", JOptionPane.PLAIN_MESSAGE);
+					}
+
 				} catch (DALException | BLLException e) {
 					e.printStackTrace();
 				}
@@ -110,6 +125,7 @@ public class EcranGestionPersonnels extends JFrame {
 		table = new JTable(initTableModel());
 		table.setBorder(null);
 		GridBagConstraints gbc_table = new GridBagConstraints();
+		gbc_table.insets = new Insets(0, 0, 5, 0);
 		gbc_table.gridheight = 4;
 		gbc_table.gridwidth = 3;
 		gbc_table.fill = GridBagConstraints.BOTH;
@@ -117,9 +133,20 @@ public class EcranGestionPersonnels extends JFrame {
 		gbc_table.gridy = 1;
 		getContentPane().add(table, gbc_table);
 
+		JScrollPane scrollPane = new JScrollPane(table);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridheight = 3;
+		gbc_scrollPane.gridwidth = 3;
+		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 1;
+		getContentPane().add(scrollPane, gbc_scrollPane);
+
 	}
 
 	public TableModel initTableModel() {
+		String[] personnels = { "Nom", "Prenom", "Role", "Login" };
 		TableModel dataModel = new AbstractTableModel() {
 			public int getColumnCount() {
 				return 4;
@@ -135,6 +162,11 @@ public class EcranGestionPersonnels extends JFrame {
 					e.printStackTrace();
 				}
 				return cnt;
+			}
+
+			@Override
+			public String getColumnName(int index) {
+				return personnels[index];
 			}
 
 			public Object getValueAt(int row, int col) {

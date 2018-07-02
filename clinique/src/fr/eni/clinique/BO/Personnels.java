@@ -31,7 +31,7 @@ public class Personnels {
 
 	public void setNom(String nom) throws BLLException {
 
-		Nom = nom;
+		Nom = nom.toUpperCase();
 	}
 
 	public String getMotPasse() {
@@ -65,7 +65,7 @@ public class Personnels {
 	}
 
 	public void setPrenom(String prenom) {
-		Prenom = prenom;
+		Prenom = prenom.substring(0, 1).toUpperCase()+prenom.substring(1).toLowerCase();
 	}
 
 	public String getLogin() {
@@ -80,7 +80,7 @@ public class Personnels {
 		super();
 		this.setNom(nom);
 		this.setPrenom(prenom);
-		this.setLogin(String.format("%1s%2s", prenom.substring(0, 1), nom.trim()));
+		this.setLogin(String.format("%1s%2s", prenom.substring(0, 1), nom.replace(" ", "")));
 		this.setMotPasse(motPasse);
 		this.setRole(role);
 		this.setArchive(archive);
@@ -92,7 +92,7 @@ public class Personnels {
 		this.setCodePerso(codePerso);
 		this.setNom(nom);
 		this.setPrenom(prenom);
-		this.setLogin(String.format("%1s%2s", prenom.substring(0, 1), nom.trim()));
+		this.setLogin(String.format("%1s%2s", prenom.substring(0, 1), nom.replace(" ", "")));
 		this.setMotPasse(motPasse);
 		this.setRole(role);
 		this.setArchive(archive);
@@ -100,9 +100,10 @@ public class Personnels {
 
 	@Override
 	public String toString() {
-		return  String.format("%1s %2s       %3s     %4s", Nom,Prenom,Role,MotPasse);
+		return "Personnels [CodePerso=" + CodePerso + ", Nom=" + Nom + ", Prenom=" + Prenom + ", login=" + login
+				+ ", MotPasse=" + MotPasse + ", Role=" + Role + ", Archive=" + Archive + "]";
 	}
-	
+
 	
 
 }

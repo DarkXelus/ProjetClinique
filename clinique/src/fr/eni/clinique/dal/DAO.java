@@ -4,7 +4,7 @@ import fr.eni.clinique.bll.BLLException;
 
 public interface DAO<T> {
 
-	public void create(T data) throws DALException;
+	public void create(T data) throws DALException, BLLException;
 
 	// Sélectionner un business object par son id
 	public T read(Long id) throws DALException, BLLException;

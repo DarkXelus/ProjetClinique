@@ -112,9 +112,9 @@ public class AjoutPersonnels extends JFrame {
 								txtRole.getText(), false);
 
 						pm.Create(perso);
+						SingletonGestionClient.getInstance().getEcran().dispose();
 						
 						AjoutPersonnels.this.dispose();
-						SingletonGestionClient.getInstance().getTest().dispose();
 						EcranGestionPersonnels ecranPerso = new EcranGestionPersonnels();
 						ecranPerso.setVisible(true);
 						JOptionPane.showMessageDialog(frame, "Ajout éffectué");

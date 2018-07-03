@@ -17,6 +17,7 @@ import javax.swing.table.TableModel;
 import fr.eni.clinique.BO.Personnels;
 import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.bll.PersonnelsManager;
+import fr.eni.clinique.bll.SingletonGestionClient;
 import fr.eni.clinique.dal.DALException;
 import java.awt.Insets;
 import javax.swing.JTable;
@@ -30,7 +31,8 @@ import javax.swing.JScrollPane;
 @SuppressWarnings("serial")
 public class EcranGestionPersonnels extends JFrame {
 	JTable table;
-
+	EcranGestionPersonnels ec = this;
+	
 	public EcranGestionPersonnels() throws DALException, BLLException {
 		getContentPane().setBackground(Color.WHITE);
 		setSize(500, 200);
@@ -47,6 +49,7 @@ public class EcranGestionPersonnels extends JFrame {
 		btnAjouter.setBackground(UIManager.getColor("Button.light"));
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				SingletonGestionClient.getInstance().setEcran(ec);
 				AjoutPersonnels ajout = new AjoutPersonnels();
 				ajout.setVisible(true);
 			}

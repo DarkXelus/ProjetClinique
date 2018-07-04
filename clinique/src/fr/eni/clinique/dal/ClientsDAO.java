@@ -2,6 +2,7 @@ package fr.eni.clinique.dal;
 
 import java.util.List;
 
+import fr.eni.clinique.BO.Animaux;
 import fr.eni.clinique.BO.Clients;
 import fr.eni.clinique.bll.BLLException;
 
@@ -20,4 +21,6 @@ public interface ClientsDAO extends DAO<Clients> {
 	public void update(Clients client) throws DALException, BLLException ;
 	
 	public List<Clients> search(String txt) throws DALException, BLLException;
+	
+	public List<Animaux> selectAnimauxClient(Long codeClient) throws DALException, BLLException;
 }

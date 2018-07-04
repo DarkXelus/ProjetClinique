@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.clinique.BO.Animaux;
+import fr.eni.clinique.BO.Animaux.Sex;
 import fr.eni.clinique.BO.Clients;
 import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.dal.ClientsDAO;
@@ -21,7 +23,8 @@ public class ClientsDAOJdbcImpl implements ClientsDAO {
 	private static final String sqlUpdate = "UPDATE Clients SET NomClient = ?, PrenomClient = ?,Adresse1 = ?,Adresse2 = ?,CodePostal = ?,Ville = ?,NumTel = ?,Assurance = ?,Email= ?,Remarque = ?, Archive = ? WHERE Clients.CodeClient = ? ";
 	private static final String sqlDelete = "UPDATE Clients SET Archive = 'true' WHERE Clients.CodeClient = ? ";
 	private static final String sqlId = "SELECT CodeClient from Clients where NomClient = '%1s' AND PrenomClient = '%2s'";
-	private static final String sqlSearch = "SELECT * FROM Clients WHERE NomClient = '?%'";
+	private static final String sqlSearch = "SELECT * FROM Clients WHERE NomClient LIKE ? ";
+	private static final String sqlListAnimaux = "SELECT * FROM Animaux WHERE CodeClient = ? ";
 
 	// Test connexion a la base de donnée
 	public void connexionStatus() throws DALException {
@@ -143,7 +146,8 @@ public class ClientsDAOJdbcImpl implements ClientsDAO {
 		try {
 			cnx = JdbcTools.getConnection();
 			rqt = cnx.prepareStatement(sqlSearch);
-			rqt.setString(1, txt);
+
+			rqt.setString(1, txt + "%");
 			rs = rqt.executeQuery();
 			while (rs.next()) {
 				cli = new Clients(rs.getLong("CodeClient"), rs.getString("NomClient"), rs.getString("PrenomClient"),
@@ -315,5 +319,57 @@ public class ClientsDAOJdbcImpl implements ClientsDAO {
 				}
 			}
 		}
+	}
+
+	public List<Animaux> selectAnimauxClient(Long CodeClient) throws DALException, BLLException {
+		Sex var = null;
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
+		List<Animaux> lstAnimaux = new ArrayList<Animaux>();
+		Animaux ani = null;
+		try {
+			cnx = JdbcTools.getConnection();
+			rqt = cnx.prepareStatement(sqlListAnimaux);
+			rqt.setLong(1, CodeClient);
+			rs = rqt.executeQuery();
+			while (rs.next()) {
+				
+				switch (rs.getString("Sexe")) {
+				case "F":
+					var = Sex.F;
+					break;
+				case "H":
+					var = Sex.H;
+					break;
+				case "M":
+					var = Sex.M;
+				default:
+					break;
+				}
+				ani = new Animaux(rs.getLong("CodeAnimal"), rs.getString("NomAnimal"), var ,
+						rs.getString("Couleur"), rs.getString("Race"), rs.getString("Espece"),
+						rs.getString("Tatouage"), rs.getString("Antecedents"), rs.getBoolean("Archive"),rs.getLong("CodeClient"));
+				lstAnimaux.add(ani);
+			}
+
+		} catch (SQLException e) {
+			throw new DALException("Connexion failed :" + e.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (rqt != null) {
+					rqt.close();
+				}
+				if (cnx != null) {
+					cnx.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return lstAnimaux;
 	}
 }

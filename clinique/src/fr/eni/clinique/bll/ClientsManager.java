@@ -3,6 +3,7 @@ package fr.eni.clinique.bll;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.clinique.BO.Animaux;
 import fr.eni.clinique.BO.Clients;
 import fr.eni.clinique.dal.ClientsDAO;
 import fr.eni.clinique.dal.DALException;
@@ -86,6 +87,16 @@ public class ClientsManager {
 			throw e;
 		}
 		return lstClients;
+	}
+	
+	public List<Animaux> selectAnimauxClient(Long codeClient) throws DALException, BLLException {
+		List<Animaux> lstAnimaux = new ArrayList<Animaux>();
+		try {
+			lstAnimaux = daoClients.selectAnimauxClient(codeClient);
+		} catch (DALException e) {
+			throw e;
+		}
+		return lstAnimaux;
 	}
 
 }

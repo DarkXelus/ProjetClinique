@@ -5,6 +5,7 @@ public class Animaux {
 	Long CodeAnimal;
 	// size 30
 	String NomAnimal;
+	
 	Sex Sexe;// M:male ; F:femelle ; H:hermaphrodite
 	// size 20
 	String Couleur;

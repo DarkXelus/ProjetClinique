@@ -1,6 +1,5 @@
 package fr.eni.clinique.bll;
 
-import fr.eni.clinique.ihm.Personnels.EcranGestionPersonnels;
 import fr.eni.clinique.ihm.clients.EcranGestionClients;
 
 public class SingletonGestionClients {

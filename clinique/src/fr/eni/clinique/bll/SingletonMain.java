@@ -1,11 +1,11 @@
 package fr.eni.clinique.bll;
 
-import fr.eni.clinique.ihm.login.EcranMain1;
+import fr.eni.clinique.ihm.login.EcranMain;
 
 public class SingletonMain {
 	private static SingletonMain single ;
 	// Variable d'instance
-	private EcranMain1 Ecran ;
+	private EcranMain Ecran ;
 
 	private SingletonMain() {
 		
@@ -18,11 +18,11 @@ public class SingletonMain {
 		return single;
 	}
 
-	public EcranMain1 getEcran() {
+	public EcranMain getEcran() {
 		return this.Ecran;
 	}
 	
-	public void setEcran(EcranMain1 ec) {
+	public void setEcran(EcranMain ec) {
 		this.Ecran = ec;
 	}
 }

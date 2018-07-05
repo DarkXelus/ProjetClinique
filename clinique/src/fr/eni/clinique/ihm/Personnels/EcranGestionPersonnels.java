@@ -1,6 +1,9 @@
 package fr.eni.clinique.ihm.Personnels;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import java.awt.GridBagLayout;
@@ -18,24 +21,28 @@ import fr.eni.clinique.BO.Personnels;
 import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.bll.PersonnelsManager;
 import fr.eni.clinique.bll.SingletonGestionPersonnels;
+import fr.eni.clinique.bll.SingletonMain;
 import fr.eni.clinique.dal.DALException;
+import fr.eni.clinique.ihm.clients.EcranGestionClients;
+import fr.eni.clinique.ihm.login.EcranLogin;
+
 import java.awt.Insets;
 import javax.swing.JTable;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.ImageIcon;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public class EcranGestionPersonnels extends JFrame {
 	JTable table;
 	EcranGestionPersonnels ec = this;
-	
+	JFrame frame;
+
 	public EcranGestionPersonnels() throws DALException, BLLException {
 		getContentPane().setBackground(Color.WHITE);
-		setSize(500, 200);
+		setSize(700, 400);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -44,8 +51,6 @@ public class EcranGestionPersonnels extends JFrame {
 		getContentPane().setLayout(gridBagLayout);
 
 		JButton btnAjouter = new JButton("Ajouter");
-		btnAjouter.setIcon(new ImageIcon(
-				"C:\\Users\\ttourgis2017\\Documents\\GitHub\\ProjetClinique\\clinique\\icon\\add (1).png"));
 		btnAjouter.setBackground(UIManager.getColor("Button.light"));
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -84,8 +89,6 @@ public class EcranGestionPersonnels extends JFrame {
 				}
 			}
 		});
-		btnSupprimer.setIcon(new ImageIcon(
-				"C:\\Users\\ttourgis2017\\Documents\\GitHub\\ProjetClinique\\clinique\\icon\\rubbish-bin.png"));
 
 		GridBagConstraints gbc_btnSupprimer = new GridBagConstraints();
 		gbc_btnSupprimer.insets = new Insets(0, 0, 5, 5);
@@ -115,8 +118,6 @@ public class EcranGestionPersonnels extends JFrame {
 				}
 			}
 		});
-		btnReinitialiser.setIcon(new ImageIcon(
-				"C:\\Users\\ttourgis2017\\Documents\\GitHub\\ProjetClinique\\clinique\\icon\\back-arrow.png"));
 		btnReinitialiser.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_btnReinitialiser = new GridBagConstraints();
 		gbc_btnReinitialiser.anchor = GridBagConstraints.WEST;
@@ -145,6 +146,76 @@ public class EcranGestionPersonnels extends JFrame {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		getContentPane().add(scrollPane, gbc_scrollPane);
+
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		JMenu mnFichier = new JMenu("Fichier");
+		menuBar.add(mnFichier);
+
+		JMenuItem mntmFermer = new JMenuItem("Fermer");
+		mntmFermer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				SingletonMain.getInstance().getEcran().dispose();
+				EcranGestionPersonnels.this.dispose();
+			}
+		});
+		mnFichier.add(mntmFermer);
+
+		JMenuItem mntmDeconecter = new JMenuItem("Deconnexion");
+		mntmDeconecter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				SingletonMain.getInstance().getEcran().dispose();
+				EcranGestionPersonnels.this.dispose();
+				EcranLogin el = new EcranLogin();
+				el.setVisible(true);
+
+			}
+		});
+		mnFichier.add(mntmDeconecter);
+
+		JMenu mnGestionClients = new JMenu("Gestion des clients");
+		menuBar.add(mnGestionClients);
+
+		JMenuItem mntmNewMenuItem = new JMenuItem("Gerer les clients");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				if (SingletonMain.getInstance().getEcran().role.equals("AST")) {
+					EcranGestionClients client;
+						client = new EcranGestionClients();
+						client.setVisible(true);
+					
+				} else {
+					JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
+				}
+
+			}
+		});
+		mntmNewMenuItem.setHorizontalAlignment(SwingConstants.LEFT);
+		mnGestionClients.add(mntmNewMenuItem);
+
+		JMenu mnGestionPersonnels = new JMenu("Gestion du personnels");
+		menuBar.add(mnGestionPersonnels);
+
+		JMenuItem mntmGererPerso = new JMenuItem("Gerer le personnels");
+		mntmGererPerso.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				if (SingletonMain.getInstance().getEcran().role.equals("PDA")) {
+					// Passage du role et du nom dans la vue Main
+					EcranGestionPersonnels ecranPersonnels;
+					try {
+						ecranPersonnels = new EcranGestionPersonnels();
+						ecranPersonnels.setVisible(true);
+					} catch (DALException | BLLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
+				}
+			}
+		});
+		mnGestionPersonnels.add(mntmGererPerso);
 
 	}
 

@@ -16,6 +16,11 @@ import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.ihm.animaux.EcranGestionAnimaux;
 import fr.eni.clinique.ihm.Personnels.EcranGestionPersonnels;
 import fr.eni.clinique.ihm.login.EcranLogin;
+<<<<<<< HEAD
+=======
+import fr.eni.clinique.ihm.login.EcranMain;
+
+>>>>>>> 7c47fd5cbed50c5935eaf1033d05ef0bf02605f2
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,9 +108,16 @@ public class EcranGestionClients extends JFrame {
 		gbc_btnValider.gridx = 12;
 		gbc_btnValider.gridy = 1;
 		getContentPane().add(btnValider, gbc_btnValider);
+<<<<<<< HEAD
 		JButton btnAnnuler = new JButton("Annuler");
 		btnAnnuler.setEnabled(false);
 
+=======
+
+		JButton btnAnnuler = new JButton("Annuler");
+		btnAnnuler.setEnabled(false);
+		
+>>>>>>> 7c47fd5cbed50c5935eaf1033d05ef0bf02605f2
 		JButton btnSupprimer = new JButton("Annuler");
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -199,7 +211,10 @@ public class EcranGestionClients extends JFrame {
 		});
 		mnGestionPersonnels.add(mntmGererPerso);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7c47fd5cbed50c5935eaf1033d05ef0bf02605f2
 		GridBagConstraints gbc_btnSupprimer = new GridBagConstraints();
 		gbc_btnSupprimer.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSupprimer.gridx = 13;

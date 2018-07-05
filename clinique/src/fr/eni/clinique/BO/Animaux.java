@@ -114,6 +114,20 @@ public class Animaux {
 		Archive = archive;
 		CodeClients = codeClients;
 	}
+	
+	public Animaux(String nomAnimal, Sex sexe, String couleur, String race, String espece,
+			String tatouage, String antecedents, Boolean archive, Long codeClients) {
+		super();
+		NomAnimal = nomAnimal;
+		Sexe = sexe;
+		Couleur = couleur;
+		Race = race;
+		Espece = espece;
+		Tatouage = tatouage;
+		Antecedents = antecedents;
+		Archive = archive;
+		CodeClients = codeClients;
+	}
 
 	public enum Sex {
 		M, F, H;

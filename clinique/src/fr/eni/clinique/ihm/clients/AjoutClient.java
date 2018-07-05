@@ -202,9 +202,9 @@ public class AjoutClient extends JFrame {
 									txtAdresse2.getText(), txtCodePostal.getText(), txtVille.getText(),
 									txtNumTel.getText(), txtAssurance.getText(), txtEmail.getText(),
 									txtRemarque.getText(), false);
-
-							cm.create(cli);
+							cm.create(cli);						
 							AjoutClient.this.dispose();
+
 							JOptionPane.showMessageDialog(frame, "Ajout éffectué");
 						} else {
 							JOptionPane.showMessageDialog(frame, "Veuillez remplir tous les champs obligatoire");

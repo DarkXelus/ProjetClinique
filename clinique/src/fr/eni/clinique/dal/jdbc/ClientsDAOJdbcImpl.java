@@ -22,9 +22,11 @@ public class ClientsDAOJdbcImpl implements ClientsDAO {
 	private static final String sqlRead = "SELECT * from Clients where CodeClient = %1d ";
 	private static final String sqlUpdate = "UPDATE Clients SET NomClient = ?, PrenomClient = ?,Adresse1 = ?,Adresse2 = ?,CodePostal = ?,Ville = ?,NumTel = ?,Assurance = ?,Email= ?,Remarque = ?, Archive = ? WHERE Clients.CodeClient = ? ";
 	private static final String sqlDelete = "UPDATE Clients SET Archive = 'true' WHERE Clients.CodeClient = ? ";
+	private static final String sqlArchiveAnimaux = "UPDATE Animaux SET Archive = 'true' WHERE Animaux.CodeClient = ?";
 	private static final String sqlId = "SELECT CodeClient from Clients where NomClient = '%1s' AND PrenomClient = '%2s'";
 	private static final String sqlSearch = "SELECT * FROM Clients WHERE NomClient LIKE ? ";
 	private static final String sqlListAnimaux = "SELECT * FROM Animaux WHERE CodeClient = ? ";
+	private static final String sqlSelectAnimal = "SELECT * FROM Animaux WHERE CodeAnimal = ?";
 
 	// Test connexion a la base de donnée
 	public void connexionStatus() throws DALException {
@@ -52,6 +54,54 @@ public class ClientsDAOJdbcImpl implements ClientsDAO {
 			}
 
 		}
+	}
+	
+	public Animaux selectAnimal(Long codeAnimal) throws DALException, BLLException {
+		Sex var = null;
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
+		Animaux animal = null;
+		try {
+			cnx = JdbcTools.getConnection();
+			rqt = cnx.prepareStatement(String.format(sqlSelectAnimal, codeAnimal));
+			rs = rqt.executeQuery();
+			while (rs.next()) {
+				switch (rs.getString("Sexe")) {
+				case "F":
+					var = Sex.F;
+					break;
+				case "H":
+					var = Sex.H;
+					break;
+				case "M":
+					var = Sex.M;
+				default:
+					break;
+				}
+				animal = new Animaux(rs.getLong("CodeAnimal"), rs.getString("NomAnimal"), var ,
+						rs.getString("Couleur"), rs.getString("Race"), rs.getString("Espece"),
+						rs.getString("Tatouage"), rs.getString("Antecedents"), rs.getBoolean("Archive"),rs.getLong("CodeClient"));
+			}
+
+		} catch (SQLException e) {
+			throw new DALException("Connexion failed :" + e.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (rqt != null) {
+					rqt.close();
+				}
+				if (cnx != null) {
+					cnx.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return animal;
 	}
 
 	@Override
@@ -293,14 +343,37 @@ public class ClientsDAOJdbcImpl implements ClientsDAO {
 		PreparedStatement rqt = null;
 		ResultSet rs = null;
 		Clients data = read(GetID(obj.getNomClient(), obj.getPrenomClient()));
-
+		Long id = GetID(obj.getNomClient(), obj.getPrenomClient());
+		
 		if (data != null) {
 			try {
 				cnx = JdbcTools.getConnection();
 				rqt = cnx.prepareStatement(sqlDelete);
-				rqt.setLong(1, GetID(obj.getNomClient(), obj.getPrenomClient()));
+				
+				rqt.setLong(1, id);
 				rqt.executeUpdate();
-
+			} catch (SQLException e) {
+				throw new DALException("Connexion failed :" + e.getMessage());
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (rqt != null) {
+						rqt.close();
+					}
+					if (cnx != null) {
+						cnx.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}		
+			try {
+				cnx = JdbcTools.getConnection();
+				rqt = cnx.prepareStatement(sqlArchiveAnimaux);
+				rqt.setLong(1, id);
+				rqt.executeUpdate();
 			} catch (SQLException e) {
 				throw new DALException("Connexion failed :" + e.getMessage());
 			} finally {

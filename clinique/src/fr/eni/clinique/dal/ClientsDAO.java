@@ -23,4 +23,6 @@ public interface ClientsDAO extends DAO<Clients> {
 	public List<Clients> search(String txt) throws DALException, BLLException;
 	
 	public List<Animaux> selectAnimauxClient(Long codeClient) throws DALException, BLLException;
+	
+	public Animaux selectAnimal(Long codeAnimal) throws DALException, BLLException ;
 }

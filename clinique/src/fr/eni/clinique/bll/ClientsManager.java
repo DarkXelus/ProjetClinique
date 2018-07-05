@@ -98,5 +98,15 @@ public class ClientsManager {
 		}
 		return lstAnimaux;
 	}
+	
+	public Animaux selectAnimal(Long codeAnimal) throws DALException, BLLException {
+		Animaux ani = new Animaux(codeAnimal, null, null, null, null, null, null, null, null, null);
+		try {
+			ani = daoClients.selectAnimal(codeAnimal);
+		} catch (DALException e) {
+			throw e;
+		}
+		return ani;
+	}
 
 }

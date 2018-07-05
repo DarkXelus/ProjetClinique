@@ -2,19 +2,19 @@ package fr.eni.clinique.bll;
 
 import fr.eni.clinique.ihm.Personnels.EcranGestionPersonnels;
 
-public class SingletonGestionClient {
+public class SingletonGestionPersonnels {
 
-	private static SingletonGestionClient single ;
+	private static SingletonGestionPersonnels single ;
 	// Variable d'instance
 	private EcranGestionPersonnels Ecran ;
 
-	private SingletonGestionClient() {
+	private SingletonGestionPersonnels() {
 		
 	}
 
-	public static SingletonGestionClient getInstance() {
+	public static SingletonGestionPersonnels getInstance() {
 		if (single == null)
-			single = new SingletonGestionClient();
+			single = new SingletonGestionPersonnels();
 
 		return single;
 	}

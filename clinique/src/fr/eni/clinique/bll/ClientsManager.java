@@ -108,5 +108,23 @@ public class ClientsManager {
 		}
 		return ani;
 	}
+	
+	public List<String> selectRaces(String espece) throws DALException, BLLException {
+		List<String> lstRaces = new ArrayList<String>();
+		try {
+			lstRaces = daoClients.selectRaces(espece);
+		} catch (DALException e) {
+			throw e;
+		}
+		return lstRaces;	
+	}
+	
+	public void createAnimaux(Animaux data) throws DALException {
+		try {
+			daoClients.createAnimaux(data);
+		} catch (DALException e) {
+			throw e;
+		}
+	}
 
 }

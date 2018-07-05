@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 @SuppressWarnings("serial")
 public class SearchClients extends JFrame {
@@ -29,6 +30,7 @@ public class SearchClients extends JFrame {
 	private JTable Jtable;
 
 	public SearchClients() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(SearchClients.class.getResource("/fr/eni/clinique/ressource/ico_veto.png")));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		setSize(600, 375);
 		setLocationRelativeTo(null);

@@ -27,6 +27,10 @@ public class ClientsDAOJdbcImpl implements ClientsDAO {
 	private static final String sqlSearch = "SELECT * FROM Clients WHERE NomClient LIKE ? ";
 	private static final String sqlListAnimaux = "SELECT * FROM Animaux WHERE CodeClient = ? ";
 	private static final String sqlSelectAnimal = "SELECT * FROM Animaux WHERE CodeAnimal = ?";
+	private static final String sqlSelectRaces = "SELECT Race FROM Races WHERE Espece = ?";
+	private static final String sqlCreateAnimaux = "INSERT INTO Animaux(NomAnimal,Sexe,Couleur,Race,Espece,CodeClient,Tatouage,Antecedents,Archive) VALUES (?,?,?,?,?,?,?,?,?)";
+	
+	
 
 	// Test connexion a la base de donnée
 	public void connexionStatus() throws DALException {
@@ -56,6 +60,44 @@ public class ClientsDAOJdbcImpl implements ClientsDAO {
 		}
 	}
 	
+	public void createAnimaux(Animaux data) throws DALException {
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
+		try {
+			cnx = JdbcTools.getConnection();
+			rqt = cnx.prepareStatement(sqlCreateAnimaux);
+			rqt.setString(1, data.getNomAnimal());
+			rqt.setString(2, data.getSexe().toString());
+			rqt.setString(3, data.getCouleur());
+			rqt.setString(4, data.getRace());
+			rqt.setString(5, data.getEspece());
+			rqt.setLong(6, data.getCodeClients());
+			rqt.setString(7, data.getTatouage());
+			rqt.setString(8, data.getAntecedents());
+			rqt.setBoolean(9, data.getArchive());
+
+			rqt.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DALException("Connexion failed :" + e.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (rqt != null) {
+					rqt.close();
+				}
+				if (cnx != null) {
+					cnx.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public Animaux selectAnimal(Long codeAnimal) throws DALException, BLLException {
 		Sex var = null;
 		Connection cnx = null;
@@ -64,7 +106,8 @@ public class ClientsDAOJdbcImpl implements ClientsDAO {
 		Animaux animal = null;
 		try {
 			cnx = JdbcTools.getConnection();
-			rqt = cnx.prepareStatement(String.format(sqlSelectAnimal, codeAnimal));
+			rqt = cnx.prepareStatement(sqlSelectAnimal);
+			rqt.setLong(1, codeAnimal);
 			rs = rqt.executeQuery();
 			while (rs.next()) {
 				switch (rs.getString("Sexe")) {
@@ -104,6 +147,40 @@ public class ClientsDAOJdbcImpl implements ClientsDAO {
 		return animal;
 	}
 
+	public List<String> selectRaces(String espece) throws DALException, BLLException{
+		Connection cnx = null;
+		PreparedStatement rqt = null;
+		ResultSet rs = null;
+		List<String> lstRaces = new ArrayList<String>();
+		try {
+			cnx = JdbcTools.getConnection();
+			rqt = cnx.prepareStatement(sqlSelectRaces);
+			rqt.setString(1, espece);
+			rs = rqt.executeQuery();
+			while (rs.next()) {
+				lstRaces.add(rs.getString("Race"));
+			}
+
+		} catch (SQLException e) {
+			throw new DALException("Connexion failed ");
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (rqt != null) {
+					rqt.close();
+				}
+				if (cnx != null) {
+					cnx.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return lstRaces;
+	}
+	
 	@Override
 	public Clients read(Long id) throws DALException, BLLException {
 		Connection cnx = null;

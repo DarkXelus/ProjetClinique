@@ -11,9 +11,15 @@ import fr.eni.clinique.BO.Animaux;
 import fr.eni.clinique.BO.Clients;
 import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.bll.ClientsManager;
+import fr.eni.clinique.bll.SingletonMain;
 import fr.eni.clinique.dal.DALException;
+<<<<<<< HEAD
 import fr.eni.clinique.ihm.animaux.EcranGestionAnimaux;
+=======
+import fr.eni.clinique.ihm.Personnels.EcranGestionPersonnels;
+>>>>>>> 393d0b61156262b664a075a1d8f2385c842229bf
 import fr.eni.clinique.ihm.login.EcranLogin;
+import fr.eni.clinique.ihm.login.EcranMain1;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -24,6 +30,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -102,8 +109,106 @@ public class EcranGestionClients extends JFrame {
 		gbc_btnValider.gridy = 1;
 		getContentPane().add(btnValider, gbc_btnValider);
 
+<<<<<<< HEAD
 		JButton btnAnnuler = new JButton("Annuler");
 		btnAnnuler.setEnabled(false);
+=======
+		JButton btnSupprimer = new JButton("Annuler");
+		btnSupprimer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String nomClient = table.getValueAt(table.getSelectedRow(), 0).toString();
+				String prenomClient = table.getValueAt(table.getSelectedRow(), 1).toString();
+				ClientsManager cm = new ClientsManager();
+				try {
+					Long Id = cm.GetID(nomClient, prenomClient);
+					Clients client = cm.read(Id);
+					txtNom.setText(client.getNomClient());
+					txtPrenom.setText(client.getPrenomClient());
+					txtAdresse1.setText(client.getAdresse1());
+					txtAdresse2.setText(client.getAdresse2());
+					txtCodePostal.setText(client.getCodePostal());
+					txtVille.setText(client.getVille());
+					txtNumTel.setText(client.getNumTel());
+					txtAssurance.setText(client.getAssurance());
+					txtEmail.setText(client.getEmail());
+					txtRemarque.setText(client.getRemarque());
+				} catch (DALException | BLLException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		JMenu mnFichier = new JMenu("Fichier");
+		menuBar.add(mnFichier);
+
+		JMenuItem mntmFermer = new JMenuItem("Fermer");
+		mntmFermer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				SingletonMain.getInstance().getEcran().dispose();
+				EcranGestionClients.this.dispose();
+			}
+		});
+		mnFichier.add(mntmFermer);
+
+		JMenuItem mntmDeconecter = new JMenuItem("Deconnexion");
+		mntmDeconecter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				SingletonMain.getInstance().getEcran().dispose();
+				EcranGestionClients.this.dispose();
+				EcranLogin el = new EcranLogin();
+				el.setVisible(true);
+
+			}
+		});
+		mnFichier.add(mntmDeconecter);
+
+		JMenu mnGestionClients = new JMenu("Gestion des clients");
+		menuBar.add(mnGestionClients);
+
+		JMenuItem mntmNewMenuItem = new JMenuItem("Gerer les clients");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				if (SingletonMain.getInstance().getEcran().role.equals("AST")) {
+					EcranGestionClients clients = new EcranGestionClients();
+					clients.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
+				}
+
+			}
+		});
+		mntmNewMenuItem.setHorizontalAlignment(SwingConstants.LEFT);
+		mnGestionClients.add(mntmNewMenuItem);
+
+		JMenu mnGestionPersonnels = new JMenu("Gestion du personnels");
+		menuBar.add(mnGestionPersonnels);
+
+		JMenuItem mntmGererPerso = new JMenuItem("Gerer le personnels");
+		mntmGererPerso.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				if (SingletonMain.getInstance().getEcran().role.equals("PDA")) {
+					// Passage du role et du nom dans la vue Main
+					EcranGestionPersonnels ecranPersonnels;
+					try {
+						ecranPersonnels = new EcranGestionPersonnels();
+						ecranPersonnels.setVisible(true);
+					} catch (DALException | BLLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
+				}
+			}
+		});
+		mnGestionPersonnels.add(mntmGererPerso);
+
+		btnSupprimer.setIcon(new ImageIcon(
+				"C:\\Users\\rduclos2017\\Documents\\ressources\\Java\\MDI\\ProjetClinique\\clinique\\icon\\back-arrow.png"));
+>>>>>>> 393d0b61156262b664a075a1d8f2385c842229bf
 		GridBagConstraints gbc_btnSupprimer = new GridBagConstraints();
 		gbc_btnSupprimer.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSupprimer.gridx = 13;
@@ -289,7 +394,10 @@ public class EcranGestionClients extends JFrame {
 		gbc_txtRemarque.gridy = 12;
 		getContentPane().add(txtRemarque, gbc_txtRemarque);
 		txtRemarque.setColumns(10);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 393d0b61156262b664a075a1d8f2385c842229bf
 	}
 
 	// Constructeur appelé avec un client en paramètre
@@ -356,6 +464,74 @@ public class EcranGestionClients extends JFrame {
 		gbc_btnDelete.gridx = 7;
 		gbc_btnDelete.gridy = 1;
 		getContentPane().add(btnDelete, gbc_btnDelete);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		JMenu mnFichier = new JMenu("Fichier");
+		menuBar.add(mnFichier);
+
+		JMenuItem mntmFermer = new JMenuItem("Fermer");
+		mntmFermer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				SingletonMain.getInstance().getEcran().dispose();
+				EcranGestionClients.this.dispose();
+			}
+		});
+		mnFichier.add(mntmFermer);
+
+		JMenuItem mntmDeconecter = new JMenuItem("Deconnexion");
+		mntmDeconecter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				SingletonMain.getInstance().getEcran().dispose();
+				EcranGestionClients.this.dispose();
+				EcranLogin el = new EcranLogin();
+				el.setVisible(true);
+
+			}
+		});
+		mnFichier.add(mntmDeconecter);
+
+		JMenu mnGestionClients = new JMenu("Gestion des clients");
+		menuBar.add(mnGestionClients);
+
+		JMenuItem mntmNewMenuItem = new JMenuItem("Gerer les clients");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				if (SingletonMain.getInstance().getEcran().role.equals("AST")) {
+					EcranGestionClients clients = new EcranGestionClients();
+					clients.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
+				}
+
+			}
+		});
+		mntmNewMenuItem.setHorizontalAlignment(SwingConstants.LEFT);
+		mnGestionClients.add(mntmNewMenuItem);
+
+		JMenu mnGestionPersonnels = new JMenu("Gestion du personnels");
+		menuBar.add(mnGestionPersonnels);
+
+		JMenuItem mntmGererPerso = new JMenuItem("Gerer le personnels");
+		mntmGererPerso.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				if (SingletonMain.getInstance().getEcran().role.equals("PDA")) {
+					// Passage du role et du nom dans la vue Main
+					EcranGestionPersonnels ecranPersonnels;
+					try {
+						ecranPersonnels = new EcranGestionPersonnels();
+						ecranPersonnels.setVisible(true);
+					} catch (DALException | BLLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
+				}
+			}
+		});
+		mnGestionPersonnels.add(mntmGererPerso);
 
 		JButton btnValider = new JButton("Valider");
 		btnValider.addActionListener(new ActionListener() {
@@ -646,37 +822,6 @@ public class EcranGestionClients extends JFrame {
 		gbc_txtRemarque.gridy = 13;
 		getContentPane().add(txtRemarque, gbc_txtRemarque);
 		txtRemarque.setColumns(10);
-
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-
-		JMenu mnGnral = new JMenu("G\u00E9n\u00E9ral");
-		menuBar.add(mnGnral);
-
-		JMenuItem mntmDconnexion = new JMenuItem("D\u00E9connexion");
-		mntmDconnexion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				EcranLogin login = new EcranLogin();
-				login.setVisible(true);
-				EcranGestionClients.this.dispose();
-			}
-		});
-		mnGnral.add(mntmDconnexion);
-
-		JMenuItem mntmFermer = new JMenuItem("Fermer");
-		mnGnral.add(mntmFermer);
-
-		JMenu mnAjoutDunClient = new JMenu("Client");
-		menuBar.add(mnAjoutDunClient);
-
-		JMenuItem mntmGrerLesClients = new JMenuItem("G\u00E9rer les clients");
-		mnAjoutDunClient.add(mntmGrerLesClients);
-
-		JMenu mnPersonnel = new JMenu("Personnel");
-		menuBar.add(mnPersonnel);
-
-		JMenuItem mntmGrerLePersonnel = new JMenuItem("G\u00E9rer le personnel");
-		mnPersonnel.add(mntmGrerLePersonnel);
 	}
 
 	private TableModel initTableModel(Clients client) {

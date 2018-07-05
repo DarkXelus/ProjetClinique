@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 import fr.eni.clinique.BO.Personnels;
 import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.bll.PersonnelsManager;
-import fr.eni.clinique.bll.SingletonGestionClient;
+import fr.eni.clinique.bll.SingletonGestionPersonnels;
 import fr.eni.clinique.dal.DALException;
 
 @SuppressWarnings("serial")
@@ -112,7 +112,7 @@ public class AjoutPersonnels extends JFrame {
 								txtRole.getText(), false);
 
 						pm.Create(perso);
-						SingletonGestionClient.getInstance().getEcran().dispose();
+						SingletonGestionPersonnels.getInstance().getEcran().dispose();
 						
 						AjoutPersonnels.this.dispose();
 						EcranGestionPersonnels ecranPerso = new EcranGestionPersonnels();

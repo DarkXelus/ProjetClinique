@@ -1,6 +1,9 @@
 package fr.eni.clinique.ihm.clients;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import java.awt.GridBagLayout;
@@ -9,13 +12,18 @@ import javax.swing.JButton;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import fr.eni.clinique.BO.Clients;
 import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.bll.ClientsManager;
+import fr.eni.clinique.bll.SingletonMain;
 import fr.eni.clinique.dal.DALException;
+import fr.eni.clinique.ihm.Personnels.EcranGestionPersonnels;
+import fr.eni.clinique.ihm.login.EcranLogin;
+
 import java.awt.Insets;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
@@ -27,6 +35,7 @@ import java.awt.event.ActionEvent;
 public class SearchClients extends JFrame {
 	private JTextField txtSearch;
 	private JTable Jtable;
+	JFrame frame;
 
 	public SearchClients() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -114,6 +123,76 @@ public class SearchClients extends JFrame {
 				gbc_Jtable.gridx = 0;
 				gbc_Jtable.gridy = 3;
 				getContentPane().add(Jtable, gbc_Jtable);
+				
+				JMenuBar menuBar = new JMenuBar();
+				setJMenuBar(menuBar);
+
+				JMenu mnFichier = new JMenu("Fichier");
+				menuBar.add(mnFichier);
+
+				JMenuItem mntmFermer = new JMenuItem("Fermer");
+				mntmFermer.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent ev) {
+						SingletonMain.getInstance().getEcran().dispose();
+						SearchClients.this.dispose();
+					}
+				});
+				mnFichier.add(mntmFermer);
+
+				JMenuItem mntmDeconecter = new JMenuItem("Deconnexion");
+				mntmDeconecter.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent ev) {
+						SingletonMain.getInstance().getEcran().dispose();
+						SearchClients.this.dispose();
+						EcranLogin el = new EcranLogin();
+						el.setVisible(true);
+
+					}
+				});
+				mnFichier.add(mntmDeconecter);
+
+				JMenu mnGestionClients = new JMenu("Gestion des clients");
+				menuBar.add(mnGestionClients);
+
+				JMenuItem mntmNewMenuItem = new JMenuItem("Gerer les clients");
+				mntmNewMenuItem.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent ev) {
+						if (SingletonMain.getInstance().getEcran().role.equals("AST")) {
+							EcranGestionClients client;
+								client = new EcranGestionClients();
+								client.setVisible(true);
+							
+						} else {
+							JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
+						}
+
+					}
+				});
+				mntmNewMenuItem.setHorizontalAlignment(SwingConstants.LEFT);
+				mnGestionClients.add(mntmNewMenuItem);
+
+				JMenu mnGestionPersonnels = new JMenu("Gestion du personnels");
+				menuBar.add(mnGestionPersonnels);
+
+				JMenuItem mntmGererPerso = new JMenuItem("Gerer le personnels");
+				mntmGererPerso.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent ev) {
+						if (SingletonMain.getInstance().getEcran().role.equals("PDA")) {
+							// Passage du role et du nom dans la vue Main
+							EcranGestionPersonnels ecranPersonnels;
+							try {
+								ecranPersonnels = new EcranGestionPersonnels();
+								ecranPersonnels.setVisible(true);
+							} catch (DALException | BLLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						} else {
+							JOptionPane.showMessageDialog(frame, "Vous disposez pas des droits");
+						}
+					}
+				});
+				mnGestionPersonnels.add(mntmGererPerso);
 	}
 
 	public void updateData() {

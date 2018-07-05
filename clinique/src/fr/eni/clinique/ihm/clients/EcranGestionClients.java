@@ -13,13 +13,10 @@ import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.bll.ClientsManager;
 import fr.eni.clinique.bll.SingletonMain;
 import fr.eni.clinique.dal.DALException;
-<<<<<<< HEAD
 import fr.eni.clinique.ihm.animaux.EcranGestionAnimaux;
-=======
 import fr.eni.clinique.ihm.Personnels.EcranGestionPersonnels;
->>>>>>> 393d0b61156262b664a075a1d8f2385c842229bf
 import fr.eni.clinique.ihm.login.EcranLogin;
-import fr.eni.clinique.ihm.login.EcranMain1;
+import fr.eni.clinique.ihm.login.EcranMain;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -109,10 +106,9 @@ public class EcranGestionClients extends JFrame {
 		gbc_btnValider.gridy = 1;
 		getContentPane().add(btnValider, gbc_btnValider);
 
-<<<<<<< HEAD
 		JButton btnAnnuler = new JButton("Annuler");
 		btnAnnuler.setEnabled(false);
-=======
+		
 		JButton btnSupprimer = new JButton("Annuler");
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -206,9 +202,6 @@ public class EcranGestionClients extends JFrame {
 		});
 		mnGestionPersonnels.add(mntmGererPerso);
 
-		btnSupprimer.setIcon(new ImageIcon(
-				"C:\\Users\\rduclos2017\\Documents\\ressources\\Java\\MDI\\ProjetClinique\\clinique\\icon\\back-arrow.png"));
->>>>>>> 393d0b61156262b664a075a1d8f2385c842229bf
 		GridBagConstraints gbc_btnSupprimer = new GridBagConstraints();
 		gbc_btnSupprimer.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSupprimer.gridx = 13;
@@ -394,10 +387,6 @@ public class EcranGestionClients extends JFrame {
 		gbc_txtRemarque.gridy = 12;
 		getContentPane().add(txtRemarque, gbc_txtRemarque);
 		txtRemarque.setColumns(10);
-<<<<<<< HEAD
-
-=======
->>>>>>> 393d0b61156262b664a075a1d8f2385c842229bf
 	}
 
 	// Constructeur appelé avec un client en paramètre

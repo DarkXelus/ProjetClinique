@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import fr.eni.clinique.BO.Clients;
 import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.bll.ClientsManager;
+import fr.eni.clinique.bll.SingletonGestionClients;
 import fr.eni.clinique.bll.SingletonMain;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.ihm.Personnels.EcranGestionPersonnels;
@@ -213,7 +214,7 @@ public class AjoutClient extends JFrame {
 									txtRemarque.getText(), false);
 							cm.create(cli);						
 							AjoutClient.this.dispose();
-
+							
 							JOptionPane.showMessageDialog(frame, "Ajout éffectué");
 						} else {
 							JOptionPane.showMessageDialog(frame, "Veuillez remplir tous les champs obligatoire");
@@ -354,7 +355,9 @@ public class AjoutClient extends JFrame {
 		mntmFermer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				SingletonMain.getInstance().getEcran().dispose();
+				SingletonGestionClients.getInstance().getEcran().dispose();
 				AjoutClient.this.dispose();
+				
 			}
 		});
 		mnFichier.add(mntmFermer);
@@ -363,6 +366,7 @@ public class AjoutClient extends JFrame {
 		mntmDeconecter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				SingletonMain.getInstance().getEcran().dispose();
+				SingletonGestionClients.getInstance().getEcran().dispose();
 				AjoutClient.this.dispose();
 				EcranLogin el = new EcranLogin();
 				el.setVisible(true);

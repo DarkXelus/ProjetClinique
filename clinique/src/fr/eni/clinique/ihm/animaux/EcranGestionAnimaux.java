@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 
-import fr.eni.clinique.BO.Clients;
 import fr.eni.clinique.BO.Animaux;
 import fr.eni.clinique.BO.Animaux.Sex;
 import fr.eni.clinique.bll.BLLException;
@@ -41,7 +40,7 @@ public class EcranGestionAnimaux extends JFrame {
 	String resultRace = "";
 	static JFrame frame;
 
-	public EcranGestionAnimaux() {
+	public EcranGestionAnimaux(Long codeClient) {
 		super("Ajout d'un animal");
 		setSize(new Dimension(670, 330));
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -258,7 +257,7 @@ public class EcranGestionAnimaux extends JFrame {
 						default:
 							break;
 						}
-						Long id = (long) 20 ;
+						Long id = codeClient ;
 						Animaux ani = new Animaux(txtNom.getText(), var, txtCouleur.getText(), resultRace, resultEspece,
 								txtTatouage.getText(), txtAntecedents.getText(), false, id);
 						cm.createAnimaux(ani);
@@ -274,5 +273,6 @@ public class EcranGestionAnimaux extends JFrame {
 			}
 		});
 	}
+	
 
 }

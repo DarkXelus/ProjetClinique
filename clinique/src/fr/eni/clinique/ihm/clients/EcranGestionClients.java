@@ -11,13 +11,12 @@ import fr.eni.clinique.BO.Animaux;
 import fr.eni.clinique.BO.Clients;
 import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.bll.ClientsManager;
+import fr.eni.clinique.bll.SingletonGestionClients;
 import fr.eni.clinique.bll.SingletonMain;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.ihm.animaux.EcranGestionAnimaux;
 import fr.eni.clinique.ihm.Personnels.EcranGestionPersonnels;
 import fr.eni.clinique.ihm.login.EcranLogin;
-import fr.eni.clinique.ihm.login.EcranMain;
-
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +36,7 @@ import java.awt.Toolkit;
 
 @SuppressWarnings("serial")
 public class EcranGestionClients extends JFrame {
+	EcranGestionClients ecran = this;
 	private JTextField txtNom;
 	private JTextField txtPrenom;
 	private JTextField txtAdresse1;
@@ -53,6 +53,7 @@ public class EcranGestionClients extends JFrame {
 
 	public EcranGestionClients() {
 		super("Ecran de Gestion des Clients");
+		SingletonGestionClients.getInstance().setEcran(ecran);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(EcranGestionClients.class.getResource("/fr/eni/clinique/ressource/ico_veto.png")));
 		setSize(878, 430);
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -571,7 +572,7 @@ public class EcranGestionClients extends JFrame {
 		JButton btnNewButton = new JButton("Ajouter");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				EcranGestionAnimaux ega = new EcranGestionAnimaux();
+				EcranGestionAnimaux ega = new EcranGestionAnimaux(cli.getCodeClient());
 				ega.setVisible(true);
 			}
 		});
@@ -633,7 +634,7 @@ public class EcranGestionClients extends JFrame {
 				Long codeAnimal = (Long) table.getValueAt(table.getSelectedRow(),0);
 				try {
 					Animaux ani = cm.selectAnimal(codeAnimal);
-					EcranGestionAnimaux ega = new EcranGestionAnimaux();
+					EcranGestionAnimaux ega = new EcranGestionAnimaux(cli.getCodeClient());
 					
 					} catch (DALException | BLLException e) {
 					e.printStackTrace();

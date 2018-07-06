@@ -586,7 +586,7 @@ public class EcranGestionClients extends JFrame {
 		btnSupprimer_1.setEnabled(false);
 		btnSupprimer_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				JOptionPane.showMessageDialog(frame, "A venir");
 			}
 		});
 		GridBagConstraints gbc_btnSupprimer_1 = new GridBagConstraints();
@@ -599,7 +599,7 @@ public class EcranGestionClients extends JFrame {
 		btnEditer.setEnabled(false);
 		btnEditer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				JOptionPane.showMessageDialog(frame, "A venir");
 			}
 		});
 		GridBagConstraints gbc_btnEditer = new GridBagConstraints();
